@@ -1,0 +1,31 @@
+body {margin: 0; padding: 0}
+ul {list-style: none; margin: 0; padding-left: 0}
+a {text-decoration: none; color: black}
+
+nav {height: 100px; background: #353535; color: white}
+ul.menu-main {text-align: center; font-size: 25px; padding-top: 30px}
+ul.menu-main li {display: inline-block}
+ul.menu-main a { color: white; margin: 0 70px 0 70px}
+div.content {width: 60%; margin: auto; background: rgb(243, 243, 243)}
+ul.filter-sort {text-align: center; padding-top: 20px; position: relative; font-size: 20px}
+ul.filter-sort > li {display: inline-block; cursor: pointer; margin: 0 40px 0 40px}
+
+
+.subgenres {display: none; background: #fcfcfc; position: absolute}
+.genres:hover .subgenres {display: block;}
+
+.subyears {display: none; background: #fcfcfc; position: absolute}
+.years:hover .subyears {display: block;}
+
+.subcountries {display: none; background: #fcfcfc; position: absolute}
+.countries:hover .subcountries {display: block;}
+
+.subsort {display: none; background: #fcfcfc; position: absolute}
+.sort:hover .subsort {display: block;}
+
+.films {text-align: center}
+
+.cart {margin: 10px; padding: 0; text-align: center; display: inline-block;}
+.cart img{max-height: 200px; max-width: 200px;}
+
+#filter-submit {margin: 15px 0 0 20%}

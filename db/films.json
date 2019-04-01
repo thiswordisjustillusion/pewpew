@@ -1,0 +1,10 @@
+{"_id":{"$oid":"5c9aaf1aa5f022d86f021888"},"title":"film1","img":"1.jpg","year":2018,"genre":["триллер","детектив","фантастика"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}
+{"_id":{"$oid":"5c9aaf59a5f022d86f021889"},"title":"film2","img":"2.jpg","year":"2019","genre":["драма","триллер","детектив"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}
+{"_id":{"$oid":"5c9d8b16a965534ac2e2aa57"},"title":"film3","img":"3.jpg","year":"2017","genre":["триллер","детектив","фантастика"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}
+{"_id":{"$oid":"5c9d8b1ea965534ac2e2aa58"},"title":"film4","img":"4.jpg","year":"2016","genre":["триллер","детектив","фантастика"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}
+{"_id":{"$oid":"5c9d8b24a965534ac2e2aa59"},"title":"film5","img":"5.jpg","year":"2015","genre":["триллер","детектив","фантастика"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}
+{"_id":{"$oid":"5c9d8b28a965534ac2e2aa5a"},"title":"film6","img":"6.jpg","year":"2014","genre":["триллер","детектив","фантастика"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}
+{"_id":{"$oid":"5c9d8b2ba965534ac2e2aa5b"},"title":"film7","img":"7.jpg","year":"2013","genre":["триллер","детектив","фантастика"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}
+{"_id":{"$oid":"5c9d8b2fa965534ac2e2aa5c"},"title":"film8","img":"8.jpg","year":"2012","genre":["триллер","детектив","фантастика"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}
+{"_id":{"$oid":"5c9d8b32a965534ac2e2aa5d"},"title":"film9","img":"9.jpg","year":"2011","genre":["триллер","детектив","фантастика"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}
+{"_id":{"$oid":"5c9d8b35a965534ac2e2aa5e"},"title":"film10","img":"10.jpg","year":"2010","genre":["триллер","детектив","фантастика"],"kinopoisk":7.5,"rating":8.2,"actors":["Peter Petrov","Ivan Ivanov"]}

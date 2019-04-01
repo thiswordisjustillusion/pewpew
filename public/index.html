@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>testdb</title>
+    <link rel="stylesheet" href="style.css" media="all">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+</head>
+
+<body>
+    <!-- Шапка -->
+    <nav>
+        <ul class="menu-main">
+            <li><a href="/">Смотреть</a></li>
+            <li><a href="/recomended1.html">Рекомендации1</a></li>
+            <li><a href="/recomended2.html">Рекомендации2</a></li>
+        </ul>
+    </nav>
+
+    <!-- Контент -->
+    <div class="content">
+
+        <!-- Фильтрация + сортировка -->
+        <form>
+            <ul class="filter-sort">
+                <li class="genres">Жанры
+                    <ul class="subgenres">
+                        <!--
+                            <li><a href="">жанр1</a></li>
+                            <li><a href="">жанр2</a></li>
+                            -->
+                        <li><input type="checkbox" value="триллер" />триллер</li>
+                        <li><input type="checkbox" value="детектив" />детектив</li>
+                        <li><input type="checkbox" value="фантастика" />фантастика</li>
+                        <li><input type="checkbox" value="драма" />драма</li>
+                    </ul>
+                </li>
+                <li class="years">Год
+                    <ul class="subyears">
+                        <li><input type="checkbox" value="year1" />год1</li>
+                        <li><input type="checkbox" value="year2" />год2</li>
+                    </ul>
+                </li>
+                <li class="countries">Страны
+                    <ul class="subcountries">
+                        <li><input type="checkbox" value="countries1" />страна1</li>
+                        <li><input type="checkbox" value="countries12" />страна2</li>
+                    </ul>
+                </li>
+                <li class="sort">Сортировка
+                    <ul class="subsort">
+                        <li><a href="">сортировка1</a></li>
+                        <li><a href="">сортировка2</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <input id="filter-submit" type="submit" value="Применить настройки поиска">
+        </form>
+
+        <!-- Фильмы -->
+        <div class="films">
+        </div>
+    </div>
+    <!-- <script src="script.js"></script>-->
+    <script>
+        // Получение всех фильмов
+function GetMovies() {
+    $.ajax({
+        url: "/movies",
+        type: "GET",
+        contentType: "application/json",
+        success: function (movies) {
+            var carts = "";
+            $.each(movies, function (index, movie) {
+                // добавляем полученные элементы
+                carts += cart(movie);
+            })
+            $(".films").append(carts);
+        }
+    });
+}
+
+// вывод фильмов
+var cart = function (movie) {
+    return "<div class='cart' id='" + movie._id + "'>" +
+        "<a class='title' href=''>" + movie.title + "</a></br>" +
+        "<img src='/img/" + movie.img + "' /></br>" +
+        movie.genre + "</br> Рейтинг: " + movie.rating +
+        "</div>";
+}
+    GetMovies()
+    </script>
+</body>
+
+</html>

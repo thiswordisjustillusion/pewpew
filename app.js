@@ -10,62 +10,66 @@ const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlPar
 let dbClient;
  
 app.use(express.static(__dirname + "/public"));
- 
+
 mongoClient.connect(function(err, client){
     if(err) return console.log(err);
     dbClient = client;
-    app.locals.collection = client.db("PewpoDB");
+    app.locals.db = client.db("PewpoDB");
     app.listen(3000, function(){
-        console.log("Сервер ожидает подключения...");
+        console.log("Сервер:3000");
     });
 });
 
-//app.get("/recomended1", function(request, response){});
-
 app.get("/movies", function(req, res){  
-    const collection = req.app.locals.collection;
-    collection.collection("films").find({}).sort({"rating" : -1}).toArray(function(err, movies){
+
+    const db = req.app.locals.db;
+
+    db.collection("films").find({}).sort({"rating" : -1}).toArray(function(err, movies){
         if(err) return console.log(err);
         res.send(movies)
     });
 });
 
 app.get("/users", function(req, res){  
-    const collection = req.app.locals.collection;
-    collection.collection("users").find({}).toArray(function(err, users){
+
+    const db = req.app.locals.db;
+
+    db.collection("users").find({}).toArray(function(err, users){
         if(err) return console.log(err);
         res.send(users)
     });
 });
 
+//фильтрация и сортировка
 app.post("/movies", jsonParser, function (req, res) {
        
     if(!req.body) return res.sendStatus(400);
-    //const gen1 = req.body.g1;
-    //const gen2 = req.body.g2;
-    //const gen3 = req.body.g3;
-    //const strgenresM = req.body.jsongenres;
-    let strgenresM = "film2";
-    console.log(strgenresM);
-    //strgenres1 = strgenres.replace(/"/, '')
-    //console.log(strgenres1);
-
-    const collection = req.app.locals.collection;
-    collection.collection("films").find({"title" : strgenresM}).sort({"rating" : -1}).toArray(function(err, movies){
-        if(err) return console.log(err);
-        console.log(movies)
-        res.send(movies)
-    });
-});
-
-/*app.get("/recomended-films", function(req, res){
-    if(!req.body) return res.sendStatus(400);
        
-    const _id = req.body.userID;
-    const login = req.body.userLogin;
+    const checkedGenre = req.body.genreM;
+    const checkedYear = req.body.yearM;
+    const checkedYear1 = checkedYear[0]
+    let checkedYear2 = checkedYear[1]
+    if (checkedYear2 == 0) checkedYear2 = 2050;
+    console.log(checkedGenre)
+    console.log(checkedYear1, checkedYear2)
+    const db = req.app.locals.db;
 
-    const collection = req.app.locals.collection;
-})*/
+    //проверка на жанры
+    if (!(checkedGenre.length == 0)) {
+        db.collection("films").find({"genreN" : { $all : checkedGenre}, "year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"rating" : -1}).toArray(function(err, movies){
+            if(err) return console.log(err);
+            res.send(movies)
+            console.log(movies)
+        });
+    } else {
+        db.collection("films").find({"year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"rating" : -1}).toArray(function(err, movies){
+            if(err) return console.log(err);
+            res.send(movies)
+            console.log(movies)
+        });
+    }
+    
+});
 
 /*
 удаление элемента строки:

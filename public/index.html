@@ -24,32 +24,46 @@
     <div class="content">
 
         <!-- Фильтрация + сортировка -->
-        <form>
+        
             <ul class="filter-sort">
-                <li class="genres">Жанры
-                    <ul class="subgenres">
-                        <!--
-                            <li><a href="">жанр1</a></li>
-                            <li><a href="">жанр2</a></li>
-                            -->
-                        <li><input type="checkbox" value="триллер" />триллер</li>
-                        <li><input type="checkbox" value="детектив" />детектив</li>
-                        <li><input type="checkbox" value="фантастика" />фантастика</li>
-                        <li><input type="checkbox" value="драма" />драма</li>
-                    </ul>
-                </li>
-                <li class="years">Год
-                    <ul class="subyears">
-                        <li><input type="checkbox" value="year1" />год1</li>
-                        <li><input type="checkbox" value="year2" />год2</li>
-                    </ul>
-                </li>
-                <li class="countries">Страны
-                    <ul class="subcountries">
-                        <li><input type="checkbox" value="countries1" />страна1</li>
-                        <li><input type="checkbox" value="countries12" />страна2</li>
-                    </ul>
-                </li>
+                
+                        <li class="genres">Жанры
+                                <ul class="subgenres">
+                                    <!--<form id="genreCheckbox" name="movieGenre">-->
+                                    <li><input type="checkbox" class="boxGenre" id="g0" value=0 />боевик</li>
+                                    <li><input type="checkbox" class="boxGenre" id="g1" value=1 />комедия</li>
+                                    <li><input type="checkbox" class="boxGenre" id="g2" value=2 />драма</li>
+                                    <li><input type="checkbox" class="boxGenre" id="g3" value=3 />фантастика</li>
+                                    <li><input type="checkbox" class="boxGenre" id="g4" value=4 />ужасы</li>
+                                    <li><input type="checkbox" class="boxGenre" id="g5" value=5 />исторический</li>
+                                    <li><input type="checkbox" class="boxGenre" id="g6" value=6 />детектив</li>
+                                    <li><input type="checkbox" class="boxGenre" id="g7" value=7 />мелодрама</li>
+                                    <li><input type="checkbox" class="boxGenre" id="g8" value=8 />триллер</li>
+                                    <li><input type="checkbox" class="boxGenre" id="g9" value=9 />вестерн</li>
+                                    
+                                    <!--<input id="filter-submit" type="submit" value="Искать">
+                                    </form>-->
+                                </ul>
+                            </li>
+                            <li class="years">Год
+                                <ul class="subyears">
+                                    <li><input type="text" class="boxYear" id="year1" />год1</li>
+                                    <li><input type="text" class="boxYear" id="year2" />год2</li>
+                                </ul>
+                            </li>
+                            <li class="countries">Страны
+                                <ul class="subcountries">
+                                    <li><input type="checkbox" class="boxCountry" value="Great Britain" />Великобритания</li>
+                                    <li><input type="checkbox" class="boxCountry" value="Italy" />Италия</li>
+                                    <li><input type="checkbox" class="boxCountry" value="China" />Китай</li>
+                                    <li><input type="checkbox" class="boxCountry" value="Russia" />Россия</li>
+                                    <li><input type="checkbox" class="boxCountry" value="USA" />США</li>
+                                    <li><input type="checkbox" class="boxCountry" value="France" />Франция</li>
+                                </ul>
+                            </li>
+                        <button id="btn-genre"> Применить настройки </button>
+                
+                
                 <li class="sort">Сортировка
                     <ul class="subsort">
                         <li><a href="">сортировка1</a></li>
@@ -57,8 +71,7 @@
                     </ul>
                 </li>
             </ul>
-            <input id="filter-submit" type="submit" value="Применить настройки поиска">
-        </form>
+            
 
         <!-- Фильмы -->
         <div class="films">
@@ -66,31 +79,120 @@
     </div>
     <!-- <script src="script.js"></script>-->
     <script>
-        // Получение всех фильмов
-function GetMovies() {
-    $.ajax({
-        url: "/movies",
-        type: "GET",
-        contentType: "application/json",
-        success: function (movies) {
-            var carts = "";
-            $.each(movies, function (index, movie) {
-                // добавляем полученные элементы
-                carts += cart(movie);
-            })
-            $(".films").append(carts);
-        }
-    });
-}
+        $('.boxGenre:checkbox').click(function(){
+            if ($('.boxGenre:checkbox:checked').length > 3){
+                return false;
+            }
+        })
 
-// вывод фильмов
-var cart = function (movie) {
-    return "<div class='cart' id='" + movie._id + "'>" +
-        "<a class='title' href=''>" + movie.title + "</a></br>" +
-        "<img src='/img/" + movie.img + "' /></br>" +
-        movie.genre + "</br> Рейтинг: " + movie.rating +
-        "</div>";
-}
+//отправка формы и получение готового списка бла бла бла хочу спать
+    $("#btn-genre").click(function () {
+
+        //жанры
+        let checkedGenre = [];
+        $('.boxGenre:checkbox:checked').each(function(){
+            checkedGenre.push($(this).val())
+        });
+        for (i=0; i < checkedGenre.length; i++) {
+            checkedGenre[i] = Number(checkedGenre[i])
+        }
+
+        //страны
+        let checkedCountry = [];
+        $('.boxCountry:checkbox:checked').each(function(){
+            checkedCountry.push($(this).val())
+        });
+
+        //года
+        let checkedYear = [];
+        $('.boxYear:text').val(function(){
+            checkedYear.push($(this).val())
+        });
+        for (i=0; i < checkedYear.length; i++) {
+            checkedYear[i] = Number(checkedYear[i])
+        }
+
+        console.log('Выбрано:',checkedGenre, checkedCountry, checkedYear)
+        $.ajax({
+                url: "/movies",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    genreM: checkedGenre,
+                    yearM: checkedYear
+                }),
+                success: function (movies) {
+                    let flag = 0;
+                    let j = 0;
+                    let countryCheck = [];
+                    let countryGenre = [];
+
+                    //отборка N выбранных стран (в countryCheck)
+                    if (checkedCountry.length > 0) {
+                        $.each(movies, function (index, movie) {
+                            flag = 0;
+                            for (i = 0; i < checkedCountry.length; i++) {
+                                if (movie.country == checkedCountry[i]) {
+                                    flag = 1;
+                                    countryCheck[j] = true;
+                                    break;
+                                }
+                            }
+                            j++;
+                        })
+                    //запись выбранных стран в массив counryGenre
+                    j=0;
+                    console.log('countryCheck',countryCheck)
+                    for (i=0; i<movies.length; i++) {
+                        if (countryCheck[i]) {
+                            countryGenre[j] = movies[i];
+                            j++;
+                        }
+                    }
+                    console.log('movies', movies)
+                } else countryGenre = movies;
+                console.log('countryGenre',countryGenre);
+                //Получение всех отфильтрованных фильмов
+                let carts = "";
+                $('.films').empty();
+                $.each(countryGenre, function (index, movie) {
+                    // добавляем полученные элементы
+                    carts += cart(movie);
+                })
+                $(".films").append(carts);
+                }
+            })
+    });
+
+    
+
+
+
+    // Получение всех фильмов
+    function GetMovies() {
+        $.ajax({
+            url: "/movies",
+            type: "GET",
+            contentType: "application/json",
+            success: function (movies) {
+                var carts = "";
+                $.each(movies, function (index, movie) {
+                    // добавляем полученные элементы
+                    carts += cart(movie);
+                })
+                $(".films").append(carts);
+            }
+        });
+    }
+
+    // вывод фильмов
+    var cart = function (movie) {
+        return "<div class='cart' id='" + movie._id + "'>" +
+            "<a class='title' href=''>" + movie.title + "</a></br>" +
+            "<img src='/img/" + movie.img + "' /></br>" +
+            movie.genre + "</br> Рейтинг: " + movie.rating +
+            "</div>";
+    }
     GetMovies()
     </script>
 </body>

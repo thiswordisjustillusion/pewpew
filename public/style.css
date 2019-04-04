@@ -8,7 +8,7 @@ ul.menu-main li {display: inline-block}
 ul.menu-main a { color: white; margin: 0 70px 0 70px}
 div.content {width: 60%; margin: auto; background: rgb(243, 243, 243)}
 ul.filter-sort {text-align: center; padding-top: 20px; position: relative; font-size: 20px}
-ul.filter-sort > li {display: inline-block; cursor: pointer; margin: 0 40px 0 40px}
+ul.filter-sort > li {display: inline-block; cursor: pointer; margin: 0 40px 0 40px; text-align: left}
 
 
 .subgenres {display: none; background: #fcfcfc; position: absolute}

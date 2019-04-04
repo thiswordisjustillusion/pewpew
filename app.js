@@ -50,23 +50,58 @@ app.post("/movies", jsonParser, function (req, res) {
     const checkedYear1 = checkedYear[0]
     let checkedYear2 = checkedYear[1]
     if (checkedYear2 == 0) checkedYear2 = 2050;
+    const checkedSort = req.body.sortM;
     console.log(checkedGenre)
     console.log(checkedYear1, checkedYear2)
     const db = req.app.locals.db;
 
     //проверка на жанры
     if (!(checkedGenre.length == 0)) {
-        db.collection("films").find({"genreN" : { $all : checkedGenre}, "year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"rating" : -1}).toArray(function(err, movies){
-            if(err) return console.log(err);
-            res.send(movies)
-            console.log(movies)
-        });
+        if (checkedSort == "rating") {
+            db.collection("films").find({"genreN" : { $all : checkedGenre}, "year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"rating" : -1}).toArray(function(err, movies){
+                if(err) return console.log(err);
+                res.send(movies)
+                console.log(movies)
+            });
+        }
+        if (checkedSort == "year") {
+            db.collection("films").find({"genreN" : { $all : checkedGenre}, "year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"year" : -1}).toArray(function(err, movies){
+                if(err) return console.log(err);
+                res.send(movies)
+                console.log(movies)
+            });
+        }
+        if (checkedSort == "views") {
+            db.collection("films").find({"genreN" : { $all : checkedGenre}, "year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"views" : -1}).toArray(function(err, movies){
+                if(err) return console.log(err);
+                res.send(movies)
+                console.log(movies)
+            });
+        }
+        
     } else {
-        db.collection("films").find({"year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"rating" : -1}).toArray(function(err, movies){
-            if(err) return console.log(err);
-            res.send(movies)
-            console.log(movies)
-        });
+        if (checkedSort == "rating") {
+            db.collection("films").find({"year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"rating" : -1}).toArray(function(err, movies){
+                if(err) return console.log(err);
+                res.send(movies)
+                console.log(movies)
+            });
+        }
+        if (checkedSort == "year") {
+            db.collection("films").find({"year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"year" : -1}).toArray(function(err, movies){
+                if(err) return console.log(err);
+                res.send(movies)
+                console.log(movies)
+            });
+        }
+        if (checkedSort == "views") {
+            db.collection("films").find({"year" : { $gte: checkedYear1, $lte: checkedYear2}}).sort({"views" : -1}).toArray(function(err, movies){
+                if(err) return console.log(err);
+                res.send(movies)
+                console.log(movies)
+            });
+        }
+        
     }
     
 });

@@ -24,52 +24,45 @@
     <div class="content">
 
         <!-- Фильтрация + сортировка -->
-        
             <ul class="filter-sort">
-                
-                        <li class="genres">Жанры
-                                <ul class="subgenres">
-                                    <!--<form id="genreCheckbox" name="movieGenre">-->
-                                    <li><input type="checkbox" class="boxGenre" id="g0" value=0 />боевик</li>
-                                    <li><input type="checkbox" class="boxGenre" id="g1" value=1 />комедия</li>
-                                    <li><input type="checkbox" class="boxGenre" id="g2" value=2 />драма</li>
-                                    <li><input type="checkbox" class="boxGenre" id="g3" value=3 />фантастика</li>
-                                    <li><input type="checkbox" class="boxGenre" id="g4" value=4 />ужасы</li>
-                                    <li><input type="checkbox" class="boxGenre" id="g5" value=5 />исторический</li>
-                                    <li><input type="checkbox" class="boxGenre" id="g6" value=6 />детектив</li>
-                                    <li><input type="checkbox" class="boxGenre" id="g7" value=7 />мелодрама</li>
-                                    <li><input type="checkbox" class="boxGenre" id="g8" value=8 />триллер</li>
-                                    <li><input type="checkbox" class="boxGenre" id="g9" value=9 />вестерн</li>
-                                    
-                                    <!--<input id="filter-submit" type="submit" value="Искать">
-                                    </form>-->
-                                </ul>
-                            </li>
-                            <li class="years">Год
-                                <ul class="subyears">
-                                    <li><input type="text" class="boxYear" id="year1" />год1</li>
-                                    <li><input type="text" class="boxYear" id="year2" />год2</li>
-                                </ul>
-                            </li>
-                            <li class="countries">Страны
-                                <ul class="subcountries">
-                                    <li><input type="checkbox" class="boxCountry" value="Great Britain" />Великобритания</li>
-                                    <li><input type="checkbox" class="boxCountry" value="Italy" />Италия</li>
-                                    <li><input type="checkbox" class="boxCountry" value="China" />Китай</li>
-                                    <li><input type="checkbox" class="boxCountry" value="Russia" />Россия</li>
-                                    <li><input type="checkbox" class="boxCountry" value="USA" />США</li>
-                                    <li><input type="checkbox" class="boxCountry" value="France" />Франция</li>
-                                </ul>
-                            </li>
-                        <button id="btn-genre"> Применить настройки </button>
-                
-                
-                <li class="sort">Сортировка
-                    <ul class="subsort">
-                        <li><a href="">сортировка1</a></li>
-                        <li><a href="">сортировка2</a></li>
+                <li class="genres">Жанры
+                    <ul class="subgenres">
+                        <li><input type="checkbox" class="boxGenre" id="g0" value=0 />боевик</li>
+                        <li><input type="checkbox" class="boxGenre" id="g1" value=1 />комедия</li>
+                        <li><input type="checkbox" class="boxGenre" id="g2" value=2 />драма</li>
+                        <li><input type="checkbox" class="boxGenre" id="g3" value=3 />фантастика</li>
+                        <li><input type="checkbox" class="boxGenre" id="g4" value=4 />ужасы</li>
+                        <li><input type="checkbox" class="boxGenre" id="g5" value=5 />исторический</li>
+                        <li><input type="checkbox" class="boxGenre" id="g6" value=6 />детектив</li>
+                        <li><input type="checkbox" class="boxGenre" id="g7" value=7 />мелодрама</li>
+                        <li><input type="checkbox" class="boxGenre" id="g8" value=8 />триллер</li>
+                        <li><input type="checkbox" class="boxGenre" id="g9" value=9 />вестерн</li>
                     </ul>
                 </li>
+                <li class="years">Год
+                    <ul class="subyears">
+                        <li><input type="text" class="boxYear" id="year1" />год1</li>
+                        <li><input type="text" class="boxYear" id="year2" />год2</li>
+                    </ul>
+                </li>
+                <li class="countries">Страны
+                    <ul class="subcountries">
+                        <li><input type="checkbox" class="boxCountry" value="Great Britain" />Великобритания</li>
+                        <li><input type="checkbox" class="boxCountry" value="Italy" />Италия</li>
+                        <li><input type="checkbox" class="boxCountry" value="China" />Китай</li>
+                        <li><input type="checkbox" class="boxCountry" value="Russia" />Россия</li>
+                        <li><input type="checkbox" class="boxCountry" value="USA" />США</li>
+                        <li><input type="checkbox" class="boxCountry" value="France" />Франция</li>
+                    </ul>
+                </li>
+                <li class="sort">Сортировка
+                    <ul class="subsort">
+                        <li><input type="radio" class="boxSort" name="boxSort" value="rating" checked/>Рейтинг</li>
+                        <li><input type="radio" class="boxSort" name="boxSort" value="year" />Дата выхода</li>
+                        <li><input type="radio" class="boxSort" name="boxSort" value="views" />Просмотры</li>
+                    </ul>
+                </li>
+                <button id="btn-genre"> Применить настройки </button>
             </ul>
             
 
@@ -77,14 +70,14 @@
         <div class="films">
         </div>
     </div>
-    <!-- <script src="script.js"></script>-->
     <script>
+    //не более 3х выбранных жанров
         $('.boxGenre:checkbox').click(function(){
             if ($('.boxGenre:checkbox:checked').length > 3){
                 return false;
             }
         })
-
+        
 //отправка формы и получение готового списка бла бла бла хочу спать
     $("#btn-genre").click(function () {
 
@@ -112,14 +105,19 @@
             checkedYear[i] = Number(checkedYear[i])
         }
 
-        console.log('Выбрано:',checkedGenre, checkedCountry, checkedYear)
+        //сортировка
+        let checkedSort = "";
+        checkedSort = $('.boxSort:radio:checked').val();
+
+        console.log('Выбрано:',checkedGenre, checkedCountry, checkedYear, checkedSort)
         $.ajax({
                 url: "/movies",
                 contentType: "application/json",
                 method: "POST",
                 data: JSON.stringify({
                     genreM: checkedGenre,
-                    yearM: checkedYear
+                    yearM: checkedYear,
+                    sortM: checkedSort
                 }),
                 success: function (movies) {
                     let flag = 0;

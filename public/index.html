@@ -17,6 +17,10 @@
             <li><a href="/">Смотреть</a></li>
             <li><a href="/recomended1.html">Рекомендации1</a></li>
             <li><a href="/recomended2.html">Рекомендации2</a></li>
+            <li>
+                <input type="text" id="IDsearch" placeholder="Поиск"/>
+                <button id="btn-search">+</button>
+            </li>
         </ul>
     </nav>
 
@@ -41,8 +45,8 @@
                 </li>
                 <li class="years">Год
                     <ul class="subyears">
-                        <li><input type="text" class="boxYear" id="year1" />год1</li>
-                        <li><input type="text" class="boxYear" id="year2" />год2</li>
+                        <li><input type="text" class="boxYear" id="year1" placeholder="год1"/></li>
+                        <li><input type="text" class="boxYear" id="year2" placeholder="год2"/></li>
                     </ul>
                 </li>
                 <li class="countries">Страны
@@ -73,6 +77,8 @@
     <script>
         let allTitleMovie = [];
         let countryGenre = [];
+        let getMovies = [];
+        let allViewFilms = [];
     //не более 3х выбранных жанров
         $('.boxGenre:checkbox').click(function(){
             if ($('.boxGenre:checkbox:checked').length > 3){
@@ -185,34 +191,83 @@
     }
 
 
-
-
-    // Получение всех фильмов
-    function GetMovies() {
+    function GetMovies1() {
         $.ajax({
             url: "/movies",
             type: "GET",
             contentType: "application/json",
             success: function (movies) {
-                var carts = "";
+                let carts = "";
+                let viewFilms = 0;
                 $.each(movies, function (index, movie) {
-                    // добавляем полученные элементы
-                    carts += cart(movie);
-                })
-                $(".films").append(carts);
+                    //записываем названия всех выводимых фильмов в allViewFilms
+                    allViewFilms[index] = movie.title;
+                });
+                getMovies = movies;
+                GetMovies2();
             }
         });
     }
 
+    // Получение всех фильмов
+    function GetMovies2() {
+        let carts = "";
+        let viewFilms = 0;
+        let dontViewFilms = allViewFilms;
+        while ((dontViewFilms.length > 0) && (viewFilms < 5)) {
+            flag = 0;
+            $.each(getMovies, function (index, movie) {
+                if (dontViewFilms[0] == movie.title) {
+                    // добавляем полученные элементы
+                    carts += cart(movie);
+                    viewFilms++;
+                    flag = 1;
+                }
+            })
+            if (flag == 1) dontViewFilms.splice(0, 1);
+        }
+        console.log('viewFilms', viewFilms)
+        console.log('dontViewFilms', dontViewFilms)
+        $(".films").append(carts);
+        $('#films-more').empty();
+        $('#films-more').append('<button onclick="GetMovies2()">Показать ещё</button>');   
+    }
+
+    /////////////////поиск
+    $("#btn-search").click(function () {
+        let letSearch = [];
+        let carts = "";
+        $('#IDsearch:text').val(function(){
+            letSearch.push($(this).val())
+        });
+        $.ajax({
+                url: "/search",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    searchM: letSearch
+                }),
+                success: function (sumSearch) {
+                    $.each(sumSearch, function (index, search) {
+                        console.log(search);
+                        carts += cart(search);
+                    })    
+                $(".films").empty();
+                $(".films").append(carts);
+                }
+            })
+    });
+
     // вывод фильмов
-    var cart = function (movie) {
+    let cart = function (movie) {
         return "<div class='cart' id='" + movie._id + "'>" +
-            "<a class='title' href=''>" + movie.title + "</a></br>" +
+            "<a class='title' href='/movie/" + movie.title + "'>" + movie.title + "</a></br>" +
             "<img src='/img/" + movie.img + "' /></br>" +
             movie.genre + "</br> Рейтинг: " + movie.rating +
+            "</br> Режиссёр: " + movie.actors +
             "</div>";
     }
-    GetMovies()
+    GetMovies1()
     </script>
 </body>
 

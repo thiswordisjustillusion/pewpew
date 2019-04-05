@@ -17,6 +17,10 @@
             <li><a href="/">Смотреть</a></li>
             <li><a href="/recomended1.html">Рекомендации1</a></li>
             <li><a href="/recomended2.html">Рекомендации2</a></li>
+            <li>
+                <input type="text" id="IDsearch" placeholder="Поиск"/>
+                <button id="btn-search">+</button>
+            </li>
         </ul>
     </nav>
 
@@ -26,8 +30,7 @@
         <!-- Фильмы -->
         <div class="films">
         </div>
-        <div class="films-more">
-                <button onclick="GetRecomended1()">Показать ещё</button>
+        <div id="films-more">
         </div>
         
     </div>
@@ -187,11 +190,38 @@
                     console.log('viewFilms', viewFilms)  
                     console.log('dontViewFilms', dontViewFilms)
                     $(".films").append(carts);
+                    $('#films-more').empty();
+                    $('#films-more').append('<button onclick="GetRecomended1()">Показать ещё</button>');
                     //$('#films-more').empty();
                     //$("#films-more").append('<button onclick="GetRecomended1()">Показать ещё</button>')
                 }
             })
         }
+
+    /////////////////поиск
+    $("#btn-search").click(function () {
+        let letSearch = [];
+        let carts = "";
+        $('#IDsearch:text').val(function(){
+            letSearch.push($(this).val())
+        });
+        $.ajax({
+                url: "/search",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    searchM: letSearch
+                }),
+                success: function (sumSearch) {
+                    $.each(sumSearch, function (index, search) {
+                        console.log(search);
+                        carts += cart(search);
+                    })    
+                $(".films").empty();
+                $(".films").append(carts);
+                }
+        })
+    });
 
         var cart = function (movie) {
                 return "<div class='cart' id='" + movie._id + "'>" +

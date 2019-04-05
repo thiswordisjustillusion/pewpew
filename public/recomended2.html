@@ -24,11 +24,14 @@
     <div class="content">
 
         <!-- Фильмы -->
-        <div class="films">
+        <div class="films"></div>
+        <div class="films-more">
+                <button onclick="GetRecomended2()">Показать ещё</button>
         </div>
     </div>
     <script>
         let username = "PewpoMan";
+        let likeFilms = [];
         let genreJ = [];
         let genres = [];        
         
@@ -78,8 +81,8 @@
         }
         //сравниваем жанры пользователя и жанры фильмов из бд 
         //если есть совпадение по трём жанрам, то выводим фильм
-        function GetRecomended2() {
-            let carts = "";
+        function GetRecomended1() {
+            //let carts = "";
             $.ajax({
                 url: "/movies",
                 type: "GET",
@@ -96,14 +99,53 @@
                         if (flag == 3) {
                             console.log('ID жанров фильма',movie.genreN)
                             console.log('Фильм:',movie)
-                            carts += cart(movie);
+                            likeFilms = Array.from(new Set(likeFilms.concat(movie.title)));
+                            console.log(likeFilms)
+                            //carts += cart(movie);
                         }
                     })
-                    $(".films").append(carts);
+                    console.log(likeFilms)
+                    //$(".films").append(carts);
+                    GetRecomended2 ()
                 }
             })
         }
 
+        function GetRecomended2() {
+            let likeFilms2 = likeFilms;
+            console.log(likeFilms)
+            let flag = 0;
+            $.ajax({
+                url: "/movies",
+                type: "GET",
+                contentType: "application/json",
+                success: function (movies) {
+                    var carts = "";
+                    let vivFilms = 0;
+                        //в vivFilms хранится количество выведенных фильмов
+                        //в likeFilms2 хранятся не выведенные фильмы
+                        //таким образом, можно написать скрипт, который будет 
+                        //"довыводить" фильмы по запросу пользователя
+                    while ((likeFilms2.length > 0) && (vivFilms < 2)) {
+                        flag = 0;
+                        $.each(movies, function (index, movie) {
+                            if (likeFilms[0] == movie.title) {
+                                    carts += cart(movie);
+                                    vivFilms ++;
+                                    flag = 1;
+                                    
+                            }
+                        })    
+                        if (flag == 1) likeFilms2.splice(0, 1);
+                        //console.log('length',likeFilms2.length)
+                    }
+                    console.log('vivFilms', vivFilms)  
+                    console.log('likeFilms2', likeFilms2)
+                    $(".films").append(carts);
+                }
+            })
+        }
+/*
         function CreateMovie() {
             let strgenresM = [6, 7, 9];
             console.log('strgenresM', strgenresM);
@@ -121,7 +163,7 @@
                 }
             })
         }
-
+*/
             // вывод фильмов
         var cart = function (movie) {
             return "<div class='cart' id='" + movie._id + "'>" +
@@ -134,8 +176,8 @@
         
         
         CheckGenre();
-        GetRecomended2();
-        CreateMovie();
+        GetRecomended1();
+        //CreateMovie();
     </script>
 </body>
 

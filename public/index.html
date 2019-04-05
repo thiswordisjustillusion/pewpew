@@ -67,10 +67,12 @@
             
 
         <!-- Фильмы -->
-        <div class="films">
-        </div>
+        <div class="films"></div>
+        <div id="films-more"></div>
     </div>
     <script>
+        let allTitleMovie = [];
+        let countryGenre = [];
     //не более 3х выбранных жанров
         $('.boxGenre:checkbox').click(function(){
             if ($('.boxGenre:checkbox:checked').length > 3){
@@ -80,7 +82,6 @@
         
 //отправка формы и получение готового списка бла бла бла хочу спать
     $("#btn-genre").click(function () {
-
         //жанры
         let checkedGenre = [];
         $('.boxGenre:checkbox:checked').each(function(){
@@ -89,13 +90,11 @@
         for (i=0; i < checkedGenre.length; i++) {
             checkedGenre[i] = Number(checkedGenre[i])
         }
-
         //страны
         let checkedCountry = [];
         $('.boxCountry:checkbox:checked').each(function(){
             checkedCountry.push($(this).val())
         });
-
         //года
         let checkedYear = [];
         $('.boxYear:text').val(function(){
@@ -104,7 +103,6 @@
         for (i=0; i < checkedYear.length; i++) {
             checkedYear[i] = Number(checkedYear[i])
         }
-
         //сортировка
         let checkedSort = "";
         checkedSort = $('.boxSort:radio:checked').val();
@@ -123,7 +121,6 @@
                     let flag = 0;
                     let j = 0;
                     let countryCheck = [];
-                    let countryGenre = [];
 
                     //отборка N выбранных стран (в countryCheck)
                     if (checkedCountry.length > 0) {
@@ -150,19 +147,43 @@
                     console.log('movies', movies)
                 } else countryGenre = movies;
                 console.log('countryGenre',countryGenre);
-                //Получение всех отфильтрованных фильмов
-                let carts = "";
-                $('.films').empty();
+                //получение названий фильмов в массив allTitleMovie
+                i = 0;
                 $.each(countryGenre, function (index, movie) {
-                    // добавляем полученные элементы
-                    carts += cart(movie);
+                    allTitleMovie[i] = movie.title;
+                    i++;
                 })
-                $(".films").append(carts);
+                console.log('Title отфильтрованных фильмов',allTitleMovie)
+                $('.films').empty();
+                GetFilterMovie ();
                 }
             })
-    });
+        });
 
-    
+    function GetFilterMovie() {
+        let dontViewFilms = allTitleMovie;
+        let flag = 0;
+        let carts = "";
+        let viewFilms = 0;
+        while ((dontViewFilms.length > 0) && (viewFilms < 3)) {
+            flag = 0;
+            $.each(countryGenre, function (index, movie) {
+                if (dontViewFilms[0] == movie.title) {
+                    carts += cart(movie);
+                    viewFilms++;
+                    flag = 1;
+                }
+            })
+            if (flag == 1) dontViewFilms.splice(0,1);
+        }
+        console.log('viewFilms', viewFilms)  
+        console.log('dontViewFilms', dontViewFilms)
+        
+        $('.films').append(carts);
+        $('#films-more').empty();
+        $('#films-more').append('<button onclick="GetFilterMovie()">Показать ещё</button>');
+    }
+
 
 
 

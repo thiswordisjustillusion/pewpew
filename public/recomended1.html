@@ -26,6 +26,10 @@
         <!-- Фильмы -->
         <div class="films">
         </div>
+        <div class="films-more">
+                <button onclick="GetRecomended1()">Показать ещё</button>
+        </div>
+        
     </div>
     <script>
         let likeFilms = [];
@@ -145,8 +149,7 @@
                         betterUsers.splice(0,1);
                         n++;
                     }
-                    likeFilms
-                    //console.log(likeFilms)
+                    console.log('likeFilms',likeFilms)
                     GetRecomended1 ();
                 }
             })
@@ -155,7 +158,8 @@
         //вывод ВСЕХ рекомендуемых
         function GetRecomended1() {
             //let carts = "";
-            let likeFilms2 = likeFilms;
+            let dontViewFilms = likeFilms;
+            console.log('likeFilms',likeFilms)
             let flag = 0;
             $.ajax({
                 url: "/movies",
@@ -163,27 +167,28 @@
                 contentType: "application/json",
                 success: function (movies) {
                     var carts = "";
-                    let vivFilms = 0;
-                        //в vivFilms хранится количество выведенных фильмов
-                        //в likeFilms2 хранятся не выведенные фильмы
+                    let viewFilms = 0;
+                        //в viewFilms хранится количество выведенных фильмов
+                        //в dontViewFilms хранятся не выведенные фильмы
                         //таким образом, можно написать скрипт, который будет 
                         //"довыводить" фильмы по запросу пользователя
-                    while ((likeFilms2.length > 0) && (vivFilms < 7)) {
+                    while ((dontViewFilms.length > 0) && (viewFilms < 3)) {
                         flag = 0;
                         $.each(movies, function (index, movie) {
-                            if (likeFilms[0] == movie.title) {
+                            if (dontViewFilms[0] == movie.title) {
                                     carts += cart(movie);
-                                    vivFilms ++;
+                                    viewFilms ++;
                                     flag = 1;
-                                    
                             }
                         })    
-                        if (flag == 1) likeFilms2.splice(0, 1);
-                        //console.log('length',likeFilms2.length)
+                        if (flag == 1) dontViewFilms.splice(0, 1);
+                        //console.log('length',dontViewFilms.length)
                     }
-                    console.log('vivFilms', vivFilms)  
-                    console.log('likeFilms2', likeFilms2)
+                    console.log('viewFilms', viewFilms)  
+                    console.log('dontViewFilms', dontViewFilms)
                     $(".films").append(carts);
+                    //$('#films-more').empty();
+                    //$("#films-more").append('<button onclick="GetRecomended1()">Показать ещё</button>')
                 }
             })
         }

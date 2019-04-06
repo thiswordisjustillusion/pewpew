@@ -5,24 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>testdb</title>
-    <link rel="stylesheet" href="../style.css" media="all">
+    <link rel="stylesheet" href="/public/css/style.css" media="all">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
 </head>
 
 <body>
     <!-- Шапка -->
-    <nav>
-        <ul class="menu-main">
-            <li><a href="/">Смотреть</a></li>
-            <li><a href="/recomended1">Рекомендации1</a></li>
-            <li><a href="/recomended2">Рекомендации2</a></li>
-            <li>
-                <input type="text" id="IDsearch" placeholder="Поиск"/>
-                <button id="btn-search">+</button>
-            </li>
-        </ul>
-    </nav>
+    <% include blocks/header.ejs %>
 
     <!-- Контент -->
     <div class="content">

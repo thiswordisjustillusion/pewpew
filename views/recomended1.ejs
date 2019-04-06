@@ -5,24 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>testdb</title>
-    <link rel="stylesheet" href="style.css" media="all">
+    <link rel="stylesheet" href="/public/css/style.css" media="all">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
 </head>
 
 <body>
     <!-- Шапка -->
-    <nav>
-        <ul class="menu-main">
-            <li><a href="/">Смотреть</a></li>
-            <li><a href="/recomended1">Рекомендации1</a></li>
-            <li><a href="/recomended2">Рекомендации2</a></li>
-            <li>
-                <input type="text" id="IDsearch" placeholder="Поиск"/>
-                <button id="btn-search">+</button>
-            </li>
-        </ul>
-    </nav>
+    <% include blocks/header.ejs %>
 
     <!-- Контент -->
     <div class="content">
@@ -32,7 +21,7 @@
         </div>
         <div id="films-more">
         </div>
-        
+
     </div>
     <script>
         let likeFilms = [];
@@ -44,32 +33,32 @@
         let userLike = [];
         let betterUser = "";
         let betterUsers = [];
-//находим нашего юзера и запоминаем его осн. жанры
+        //находим нашего юзера и запоминаем его осн. жанры
         function CheckGenre() {
-                $.ajax({
-                    url: "/users",
-                    type: "GET",
-                    contentType: "application/json",
-                    success: function (users) {
-                        $.each(users, function (index, user) {
-                            if (user.login == username) {
-                                userView = user.view;
-                                console.log('user.view',userView)
-                                for (i = 0; i < 10; i++) {
-                                    if (user.genrep[i] >= 10) {
-                                        genreJ[i] = user.genrep[i];
-                                    }
+            $.ajax({
+                url: "/users",
+                type: "GET",
+                contentType: "application/json",
+                success: function (users) {
+                    $.each(users, function (index, user) {
+                        if (user.login == username) {
+                            userView = user.view;
+                            console.log('user.view', userView)
+                            for (i = 0; i < 10; i++) {
+                                if (user.genrep[i] >= 10) {
+                                    genreJ[i] = user.genrep[i];
                                 }
                             }
-                        })
-                    }
-                })
-            }
+                        }
+                    })
+                }
+            })
+        }
 
 
-    function SortUsers() {
-        
-        let namemin = "";
+        function SortUsers() {
+
+            let namemin = "";
             $.ajax({
                 url: "/users",
                 type: "GET",
@@ -87,11 +76,11 @@
                             let sumOtklon = 0;
                             let flag = 0;
                             //проверяем, был ли юзер уже проверен
-                            for (i = 0; i < betterUsers.length +1; i++) {
+                            for (i = 0; i < betterUsers.length + 1; i++) {
                                 if (betterUsers[i] == user.login) {
                                     flag = 1;
                                     break;
-                                    
+
                                 }
                             }
 
@@ -110,14 +99,14 @@
                         })
                         betterUsers[betterUsers.length] = namemin;
                         //console.log('bUs',betterUsers)
-                    }                     
+                    }
                 }
             });
         }
 
-//https://medium.com/@frontman/%D0%B4%D0%B5%D0%B4%D1%83%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F-%D0%B8-%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5-%D0%BC%D0%B0%D1%81%D1%81%D0%B8%D0%B2%D0%BE%D0%B2-c2706948c200
-//получение названий фильмов в массив
-    function GetLikeMovies1() {
+        //https://medium.com/@frontman/%D0%B4%D0%B5%D0%B4%D1%83%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F-%D0%B8-%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5-%D0%BC%D0%B0%D1%81%D1%81%D0%B8%D0%B2%D0%BE%D0%B2-c2706948c200
+        //получение названий фильмов в массив
+        function GetLikeMovies1() {
             let namemin = "";
             let recomFolms = [];
             let n = 0;
@@ -134,26 +123,26 @@
                             if (user.login == betterUsers[0]) {
                                 console.log('login', user.login)
                                 //console.log('login-like', user.like)
-                                for (ii=0;ii<userView.length;ii++) {
-                                    for (jj=0;jj<user.like.length;jj++) {
+                                for (ii = 0; ii < userView.length; ii++) {
+                                    for (jj = 0; jj < user.like.length; jj++) {
                                         if (user.like[jj] == userView[ii]) {
-                                            console.log('убираем:',user.like[jj])
+                                            console.log('убираем:', user.like[jj])
                                             user.like.splice(jj, 1);
                                             continue;
                                         }
                                     }
                                 }
-                                for (i=0; i < user.like.length; i++){
+                                for (i = 0; i < user.like.length; i++) {
                                     likeFilms = Array.from(new Set(likeFilms.concat(user.like[i])))
                                 }
-                                
+
                             };
                         });
-                        betterUsers.splice(0,1);
+                        betterUsers.splice(0, 1);
                         n++;
                     }
-                    console.log('likeFilms',likeFilms)
-                    GetRecomended1 ();
+                    console.log('likeFilms', likeFilms)
+                    GetRecomended1();
                 }
             })
         }
@@ -162,7 +151,7 @@
         function GetRecomended1() {
             //let carts = "";
             let dontViewFilms = likeFilms;
-            console.log('likeFilms',likeFilms)
+            console.log('likeFilms', likeFilms)
             let flag = 0;
             $.ajax({
                 url: "/movies",
@@ -171,23 +160,23 @@
                 success: function (movies) {
                     var carts = "";
                     let viewFilms = 0;
-                        //в viewFilms хранится количество выведенных фильмов
-                        //в dontViewFilms хранятся не выведенные фильмы
-                        //таким образом, можно написать скрипт, который будет 
-                        //"довыводить" фильмы по запросу пользователя
+                    //в viewFilms хранится количество выведенных фильмов
+                    //в dontViewFilms хранятся не выведенные фильмы
+                    //таким образом, можно написать скрипт, который будет 
+                    //"довыводить" фильмы по запросу пользователя
                     while ((dontViewFilms.length > 0) && (viewFilms < 3)) {
                         flag = 0;
                         $.each(movies, function (index, movie) {
                             if (dontViewFilms[0] == movie.title) {
-                                    carts += cart(movie);
-                                    viewFilms ++;
-                                    flag = 1;
+                                carts += cart(movie);
+                                viewFilms++;
+                                flag = 1;
                             }
-                        })    
+                        })
                         if (flag == 1) dontViewFilms.splice(0, 1);
                         //console.log('length',dontViewFilms.length)
                     }
-                    console.log('viewFilms', viewFilms)  
+                    console.log('viewFilms', viewFilms)
                     console.log('dontViewFilms', dontViewFilms)
                     $(".films").append(carts);
                     $('#films-more').empty();
@@ -198,14 +187,14 @@
             })
         }
 
-    /////////////////поиск
-    $("#btn-search").click(function () {
-        let letSearch = [];
-        let carts = "";
-        $('#IDsearch:text').val(function(){
-            letSearch.push($(this).val())
-        });
-        $.ajax({
+        /////////////////поиск
+        $("#btn-search").click(function () {
+            let letSearch = [];
+            let carts = "";
+            $('#IDsearch:text').val(function () {
+                letSearch.push($(this).val())
+            });
+            $.ajax({
                 url: "/search",
                 contentType: "application/json",
                 method: "POST",
@@ -216,23 +205,23 @@
                     $.each(sumSearch, function (index, search) {
                         console.log(search);
                         carts += cart(search);
-                    })    
-                $(".films").empty();
-                $(".films").append(carts);
+                    })
+                    $(".films").empty();
+                    $(".films").append(carts);
                 }
-        })
-    });
+            })
+        });
 
         var cart = function (movie) {
-                return "<div class='cart' id='" + movie._id + "'>" +
-                    "<a class='title' href=''>" + movie.title + "</a></br>" +
-                    "<img src='/img/" + movie.img + "' /></br>" +
-                    movie.genre + "</br> Рейтинг: " + movie.rating +
-                    "</div>";
-            }
+            return "<div class='cart' id='" + movie._id + "'>" +
+                "<a class='title' href=''>" + movie.title + "</a></br>" +
+                "<img src='/img/" + movie.img + "' /></br>" +
+                movie.genre + "</br> Рейтинг: " + movie.rating +
+                "</div>";
+        }
 
         CheckGenre();
-        SortUsers ();
+        SortUsers();
         GetLikeMovies1();
     </script>
 </body>

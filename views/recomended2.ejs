@@ -96,7 +96,7 @@
                             //carts += cart(movie);
                         }
                     })
-                    console.log(likeFilms)
+                    console.log('likeFilms',likeFilms)
                     //$(".films").append(carts);
                     GetRecomended2()
                 }
@@ -105,7 +105,7 @@
 
         function GetRecomended2() {
             let likeFilms2 = likeFilms;
-            console.log(likeFilms)
+            console.log('likeFilms2',likeFilms)
             let flag = 0;
             $.ajax({
                 url: "/movies",

@@ -26,7 +26,10 @@ app.get('/recomended2', function (req, res) {
 })
 
 app.get('/movie/:title', function (req, res) {
-    res.render('movie', { movieTitle: req.params.title });
+    const db = req.app.locals.db;
+    db.collection("films").findOne({"title" : req.params.title},function (err, movie) {
+        res.render('movie', {movie: movie});
+    });
 })
 
 
@@ -45,7 +48,7 @@ app.get("/movies", function (req, res) {
 
     const db = req.app.locals.db;
 
-    db.collection("films").find({}).sort({ "rating": -1 }).toArray(function (err, movies) {
+    db.collection("films").find({}).sort({ "rating": 1 }).toArray(function (err, movies) {
         if (err) return console.log(err);
         res.send(movies)
     });
@@ -60,6 +63,68 @@ app.get("/users", function (req, res) {
         res.send(users)
     });
 });
+
+app.put("/movie/:title", jsonParser, function (req, res) {
+
+    if (!req.body) return res.sendStatus(400);
+    const db = req.app.locals.db;
+
+    const title = req.body.title;
+    const userlogin = req.body.userlogin;
+    const status = req.body.status;
+    const genreN = req.body.genreN;
+    
+    let genreN2 = ["genre.", "genre.", "genre."];
+    for (i=0; i<3; i++) 
+            genreN2[i] += genreN[i]
+    //https://metanit.com/nosql/mongodb/2.9.php
+    if (status == 1) {
+    //добавление лайка фильму
+        db.collection("films").findOneAndUpdate({"title" : title}, {$inc: {"like": 1}});
+    //добавление фильм в "понравившихся"
+        db.collection("users").findOneAndUpdate({"login" : userlogin}, {$addToSet: {"like": title}});      
+    //добавление жанров в понравившиеся
+        db.collection('users').findOneAndUpdate({"login" : userlogin}, {$inc: {[genreN2[0]]: 1, [genreN2[1]]: 1, [genreN2[2]]: 1}})
+    } else {
+    //удаление лайка фильму
+        db.collection("films").findOneAndUpdate({"title" : title}, {$inc: {"like": -1}});
+    //удаление фильма из "понравившихся"
+        db.collection("users").findOneAndUpdate({"login" : userlogin}, {$pull: {"like": title}});
+    //удаление жанров из понравившихся
+        db.collection('users').findOneAndUpdate({"login" : userlogin}, {$inc: {[genreN2[0]]: -1, [genreN2[1]]: -1, [genreN2[2]]: -1}})
+    }
+    
+    
+    //расчёт % соотношения каждого жанра пользователя:
+        db.collection("users").findOne({"login": userlogin}, function(err, user){
+            let sum = 0;
+            let newGenreP = [];
+            for (i=0; i<10; i++) sum += user.genre[i];
+            console.log(sum);
+            for (i=0; i<10; i++) newGenreP[i]=((user.genre[i] / sum)*100)
+            console.log(newGenreP)
+            //изменение user.genrep
+            db.collection('users').findOneAndUpdate({"login" : userlogin}, {$set: {"genrep.0": newGenreP[0], "genrep.1": newGenreP[1], "genrep.2": newGenreP[2], "genrep.3": newGenreP[3], 
+                "genrep.4": newGenreP[4], "genrep.5": newGenreP[5], "genrep.6": newGenreP[6], "genrep.7": newGenreP[7], "genrep.8": newGenreP[8], "genrep.9": newGenreP[9]}})
+            sum = 0;
+        });
+        
+});
+
+//вычисление новых значений для user.genrep
+/*
+app.put("/users", jsonParser, function (req, res) {
+    if (!req.body) return res.sendStatus(400);
+    const db = req.app.locals.db;
+
+    const genreM = req.body.genreM;
+    console.log(genreM)
+    let sum = 0;
+    for (i=0; i<genreM.length; i++) {
+        sum += genreM[i];
+    }
+    console.log('sum', sum)
+})*/
 
 app.post("/search", jsonParser, function (req, res) {
 
@@ -100,57 +165,23 @@ app.post("/movies", jsonParser, function (req, res) {
     let checkedYear2 = checkedYear[1]
     if (checkedYear2 == 0) checkedYear2 = 2050;
     const checkedSort = req.body.sortM;
-    console.log(checkedGenre)
-    console.log(checkedYear1, checkedYear2)
+    //console.log(checkedGenre)
+    //console.log(checkedYear1, checkedYear2)
     const db = req.app.locals.db;
 
     //проверка на жанры
     if (!(checkedGenre.length == 0)) {
-        if (checkedSort == "rating") {
-            db.collection("films").find({ "genreN": { $all: checkedGenre }, "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ "rating": -1 }).toArray(function (err, movies) {
+            db.collection("films").find({ "genreN": { $all: checkedGenre }, "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ [checkedSort]: -1 }).toArray(function (err, movies) {
                 if (err) return console.log(err);
                 res.send(movies)
-                console.log(movies)
+                //console.log(movies)
             });
-        }
-        if (checkedSort == "year") {
-            db.collection("films").find({ "genreN": { $all: checkedGenre }, "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ "year": -1 }).toArray(function (err, movies) {
-                if (err) return console.log(err);
-                res.send(movies)
-                console.log(movies)
-            });
-        }
-        if (checkedSort == "views") {
-            db.collection("films").find({ "genreN": { $all: checkedGenre }, "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ "views": -1 }).toArray(function (err, movies) {
-                if (err) return console.log(err);
-                res.send(movies)
-                console.log(movies)
-            });
-        }
-
     } else {
-        if (checkedSort == "rating") {
-            db.collection("films").find({ "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ "rating": -1 }).toArray(function (err, movies) {
+            db.collection("films").find({ "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ [checkedSort]: -1 }).toArray(function (err, movies) {
                 if (err) return console.log(err);
                 res.send(movies)
-                console.log(movies)
+                //console.log(movies)
             });
-        }
-        if (checkedSort == "year") {
-            db.collection("films").find({ "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ "year": -1 }).toArray(function (err, movies) {
-                if (err) return console.log(err);
-                res.send(movies)
-                console.log(movies)
-            });
-        }
-        if (checkedSort == "views") {
-            db.collection("films").find({ "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ "views": -1 }).toArray(function (err, movies) {
-                if (err) return console.log(err);
-                res.send(movies)
-                console.log(movies)
-            });
-        }
-
     }
 
 });

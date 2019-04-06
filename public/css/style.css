@@ -6,7 +6,23 @@ nav {height: 100px; background: #353535; color: white}
 ul.menu-main {text-align: center; font-size: 25px; padding-top: 30px}
 ul.menu-main li {display: inline-block}
 ul.menu-main a { color: white; margin: 0 70px 0 70px}
+
 div.content {width: 60%; margin: auto; background: rgb(243, 243, 243)}
+
+#div-title {padding: 0 20px 10px 20px}
+#title, #genre {width: 50%; float: left;}
+#genre {text-align: right; font-size: 23px; font-style: italic;}
+#genreN{text-align: right; font-size: 23px; font-style: italic; display: none}
+#title_rus {font-size: 35px;}
+#title_eng {font-size: 25px;}
+div.content img {width: 100%; cursor: pointer;}
+div.description-text {width: 72%; padding-left: 20px; float: left}
+#like{float: left; font-size: 25px; margin-right: 20%; cursor: pointer;}
+#views {font-size: 25px}
+div.description-text .desc {font-size: 22px}
+div.description {float: right; font-size: 20px; margin-top: 50px; padding-right: 20px}
+div.description .leftcol {font-weight: 600; vertical-align: top}
+div.description td {padding-top: 10px}
 ul.filter-sort {text-align: center; padding-top: 20px; position: relative; font-size: 20px}
 ul.filter-sort > li {display: inline-block; cursor: pointer; margin: 0 40px 0 40px; text-align: left}
 

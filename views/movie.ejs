@@ -15,8 +15,136 @@
 
     <!-- Контент -->
     <div class="content">
-        <h1>Hello, <%= movieTitle %></h1>
+        <div id="div-title">
+            <p id="title"><b id="title_rus"><%= movie.title_rus %> </b><i id="title_eng"><%= movie.title %></i></p>
+            <p id="genre"><%= movie.genre[0] %>, <%= movie.genre[1] %>, <%= movie.genre[2] %></p>
+            <p id="genreN"><span id="genreN0"><%= movie.genreN[0] %></span>, <span id="genreN1"><%= movie.genreN[1] %></span>, <span id="genreN2"><%= movie.genreN[2] %></span></p>
+        </div>
+        <img src="/public/img/play.jpg" />
+        <div class="description-text">
+            <button id="like">like: <span id="span_like"><%= movie.like %></span></button> <button id="views">Просмотры: <%= movie.views %></button>
+            <p class="desc"> Шерлок Холмс, несомненно, является величайшим сыщиком, который когда-либо рождался на нашей планете.
+                Обладая высочайшим уровнем интеллекта, потрясающей находчивостью и внимательностью к деталям, британец
+                раскрыл наиболее запутанные дела, поставившие в тупик работников Скотланд-Ярда. Лучшим другом и
+                неизменным соратником главного героя выступает доктор Ватсон, пускай не такой умный и сообразительный,
+                однако помогающий детективу в его стремлении восстановить справедливость. Правда, после того как наш
+                прославленный эскулап надумал жениться, дальнейшее существование легендарного дуэта оказалось под
+                вопросом.</p>
+        </div>
+        <div class="description">
+            <table>
+                <tr>
+                    <td class="leftcol">Год:</td>
+                    <td class="rightcol"><%= movie.year %></td>
+                </tr>
+                <tr>
+                    <td class="leftcol">Рейтинг:</td>
+                    <td class="rightcol"><%= movie.rating %></td>
+                </tr>
+                <tr>
+                    <td class="leftcol">Длительность:</td>
+                    <td class="rightcol"><%= movie.duration %></td>
+                </tr>
+                <tr>
+                    <td class="leftcol">Страна:</td>
+                    <td class="rightcol"><%= movie.country %></td>
+                </tr>
+                <tr>
+                    <td class="leftcol">Режиссёр:</td>
+                    <td class="rightcol"><%= movie.producer %></td>
+                </tr>
+                <tr>
+                    <td class="leftcol">В ролях:</td>
+                    <td class="rightcol">
+                        <ul>
+                            <% movie.actors.forEach(function(item) { %>
+                            <li><%= item %></li>
+                            <% }); %>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
+    <script>
+        const userlogin = "PewpoMan";
+        //пользователь хочет оценить фильм как понравившийся
+        $("#like").click(function () {
+            //"вытаскиваем" название фильма, имя пользователя и количество "лайков" фильма
+            const title = $("#title_eng").text()
+            let like = Number($("#span_like").text());
+            genreN[0] = Number($("#genreN0").text());
+            genreN[1] = Number($("#genreN1").text());
+            genreN[2] = Number($("#genreN2").text());
+            //let genreM = [];
+            //console.log(genreN)
+            //console.log(title, like)
+            //проверка пользователя: был ли им "лайкнут" фильм:
+            $.ajax({
+                url: "/users",
+                type: "GET",
+                contentType: "application/json",
+                success: function (users) {
+                    flag = 0;
+                    $.each(users, function (index, user) {
+                        //выбор записи бд текущего пользователя
+                        if (user.login == userlogin) {
+                            //поиск выбранного фильма среди понравившихся
+                            for (i=0; i<user.like.length; i++) {
+                                if (user.like[i] == title) {
+                                    //фильм уже был отмечен пользователем
+                                    flag = 1;
+                                    break;
+                                }
+                            }
+                            //присвоение массиву значений всех жанров
+                        }
+                    });
+                    //console.log('yeyeye',genreN, genreM)
+                    if (flag == 0) {
+                        //фильм не был отмечен пользователем
+                        const status = 1;
+                        //console.log(status)
+                        $.ajax({
+                            url: "/movie/:title",
+                            contentType: "application/json",
+                            method: "PUT",
+                            data: JSON.stringify({
+                                status: status,
+                                title: title,
+                                userlogin: userlogin,
+                                genreN: genreN
+                            })
+                        });
+                        like++;
+                        //console.log('like', like)
+                        $("#span_like").empty();
+                        $("#span_like").append(like)
+                    } else {
+                        //фильм уже был отмечен пользователем
+                        const status = -1;
+                        //console.log(status)
+                        $.ajax({
+                            url: "/movie/:title",
+                            contentType: "application/json",
+                            method: "PUT",
+                            data: JSON.stringify({
+                                status: status,
+                                title: title,
+                                userlogin: userlogin,
+                                genreN: genreN
+                            })
+                        });
+                        like--;
+                        //console.log('like', genreM)
+                        $("#span_like").empty();
+                        $("#span_like").append(like)
+                    }
+                }
+            })
+        });
+    </script>
 </body>
 
 </html>
+

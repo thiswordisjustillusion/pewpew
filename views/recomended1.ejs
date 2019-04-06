@@ -208,6 +208,7 @@
                         carts += cart(search);
                     })
                     $(".films").empty();
+                    $("#films-more").empty();
                     $(".films").append(carts);
                 }
             })
@@ -215,9 +216,10 @@
 
         var cart = function (movie) {
             return "<div class='cart' id='" + movie._id + "'>" +
-                "<a class='title' href=''>" + movie.title + "</a></br>" +
-                "<img src='/img/" + movie.img + "' /></br>" +
+                "<a class='title' href='/movie/" + movie.title + "'>" + movie.title + "</br>" +
+                "<img src='/img/" + movie.img + "' /></a></br>" +
                 movie.genre + "</br> Рейтинг: " + movie.rating +
+                "</br> Режиссёр: " + movie.actors +
                 "</div>";
         }
 

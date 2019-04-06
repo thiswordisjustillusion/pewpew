@@ -48,7 +48,7 @@ app.get("/movies", function (req, res) {
 
     const db = req.app.locals.db;
 
-    db.collection("films").find({}).sort({ "rating": 1 }).toArray(function (err, movies) {
+    db.collection("films").find({}).sort({ "rating": -1 }).toArray(function (err, movies) {
         if (err) return console.log(err);
         res.send(movies)
     });
@@ -131,7 +131,7 @@ app.post("/search", jsonParser, function (req, res) {
     if (!req.body) return res.sendStatus(400);
     const db = req.app.locals.db;
 
-    const letSearch = req.body.searchM[0];
+    const letSearch = req.body.searchM;
     let sumSearch = [];
     //поиск по названию
     db.collection("films").find({ "title": letSearch }).sort({ "views": -1 }).toArray(function (err, searchTitle) {
@@ -140,18 +140,20 @@ app.post("/search", jsonParser, function (req, res) {
         if (searchTitle.length > 0)
             for (i = 0; i < searchTitle.length; i++)
                 sumSearch.push(searchTitle[i])
-        console.log('sumSearch1:', sumSearch)
+        console.log('sumSearch1:', sumSearch.length)
+        db.collection("films").find({ "actors": letSearch }).sort({ "views": -1 }).toArray(function (err, searchActors) {
+            if (err) return console.log(err);
+            //res.send(searchActors)
+            if (searchActors.length > 0)
+                for (i = 0; i < searchActors.length; i++)
+                    sumSearch.push(searchActors[i]);
+            console.log('sumSearch2:', sumSearch.length)
+            res.send(sumSearch);
+        });
     });
     //поиск по актёрам
-    db.collection("films").find({ "actors": letSearch }).sort({ "views": -1 }).toArray(function (err, searchActors) {
-        if (err) return console.log(err);
-        //res.send(searchActors)
-        if (searchActors.length > 0)
-            for (i = 0; i < searchActors.length; i++)
-                sumSearch.push(searchActors[i]);
-        console.log('sumSearch2:', sumSearch)
-        res.send(sumSearch);
-    });
+    
+    
 });
 
 //фильтрация и сортировка

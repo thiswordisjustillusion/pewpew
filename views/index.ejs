@@ -253,7 +253,7 @@
     let cart = function (movie) {
         return "<div class='cart' id='" + movie._id + "'>" +
             "<a class='title' href='/movie/" + movie.title + "'>" + movie.title + "</br>" +
-            "<img src='/img/" + movie.img + "' /></a></br>" +
+            "<img src='/public/img/" + movie.img + "' /></a></br>" +
             movie.genre + "</br> Рейтинг: " + movie.rating +
             "</br> Режиссёр: " + movie.actors +
             "</div>";

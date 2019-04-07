@@ -63,6 +63,18 @@ app.get("/users", function (req, res) {
         res.send(users)
     });
 });
+app.put("/movie-view/:title", jsonParser, function (req, res) {
+    
+    if (!req.body) return res.sendStatus(400);
+    const db = req.app.locals.db;
+
+    const title = req.body.title;
+    const userlogin = req.body.userlogin;
+    //фильм: просмотр ++
+    db.collection("films").findOneAndUpdate({"title" : title}, {$inc: {"view": 1}});
+    //пользователь: добавление фильма в просмотренные
+    db.collection("users").findOneAndUpdate({"login" : userlogin}, {$addToSet: {"view": title}});
+})
 
 app.put("/movie/:title", jsonParser, function (req, res) {
 
@@ -111,21 +123,6 @@ app.put("/movie/:title", jsonParser, function (req, res) {
         
 });
 
-//вычисление новых значений для user.genrep
-/*
-app.put("/users", jsonParser, function (req, res) {
-    if (!req.body) return res.sendStatus(400);
-    const db = req.app.locals.db;
-
-    const genreM = req.body.genreM;
-    console.log(genreM)
-    let sum = 0;
-    for (i=0; i<genreM.length; i++) {
-        sum += genreM[i];
-    }
-    console.log('sum', sum)
-})*/
-
 app.post("/search", jsonParser, function (req, res) {
 
     if (!req.body) return res.sendStatus(400);
@@ -133,27 +130,37 @@ app.post("/search", jsonParser, function (req, res) {
 
     const letSearch = req.body.searchM;
     let sumSearch = [];
+
     //поиск по названию
-    db.collection("films").find({ "title": letSearch }).sort({ "views": -1 }).toArray(function (err, searchTitle) {
+    db.collection("films").find({ "title": letSearch }).sort({ "rating": -1 }).toArray(function (err, searchTitle) {
         if (err) return console.log(err);
         //res.send(searchTitle)
         if (searchTitle.length > 0)
             for (i = 0; i < searchTitle.length; i++)
                 sumSearch.push(searchTitle[i])
-        console.log('sumSearch1:', sumSearch.length)
-        db.collection("films").find({ "actors": letSearch }).sort({ "views": -1 }).toArray(function (err, searchActors) {
+        console.log('Поиск по фильмам:', sumSearch.length)
+
+        //поиск по режиссёру
+        db.collection("films").find({ "producer": letSearch }).sort({ "rating": -1 }).toArray(function (err, searchProducer) {
             if (err) return console.log(err);
-            //res.send(searchActors)
-            if (searchActors.length > 0)
-                for (i = 0; i < searchActors.length; i++)
-                    sumSearch.push(searchActors[i]);
-            console.log('sumSearch2:', sumSearch.length)
-            res.send(sumSearch);
+            //res.send(searchTitle)
+            if (searchProducer.length > 0)
+                for (i = 0; i < searchProducer.length; i++)
+                    sumSearch.push(searchProducer[i])
+            console.log('Поиск по режиссёрам:', searchProducer.length)
+
+            //поиск по актёрам
+            db.collection("films").find({ "actors": letSearch }).sort({ "rating": -1 }).toArray(function (err, searchActors) {
+                if (err) return console.log(err);
+                //res.send(searchActors)
+                if (searchActors.length > 0)
+                    for (i = 0; i < searchActors.length; i++)
+                        sumSearch.push(searchActors[i]);
+                console.log('Поиск по актёрам:', searchActors.length)
+                res.send(sumSearch);
+            });
         });
     });
-    //поиск по актёрам
-    
-    
 });
 
 //фильтрация и сортировка
@@ -187,26 +194,6 @@ app.post("/movies", jsonParser, function (req, res) {
     }
 
 });
-
-
-/*
-удаление элемента строки:
-stroka = "qwe qweqwe(/$'";
-stroka.replace(/\//, "_"); слеш
-*/
-/*
-stroka = "qwe q/weq/we(/$'";
-stroka.replace(/\w/g, "_");
-*//*
-stroka = "qwe q/weq/we(/$'";
-stroka.replace(/\N/g, "_"); удаление не цифр
-*//*
-stroka = "qwe q/weq/we(/$'";
-stroka.test(/\N/g); есть/нет */
-/*
-stroka = "qwe q/weq/we(/$'";
-stroka.match(/w/g); поиск */
-
 
 // прослушиваем прерывание работы программы (ctrl-c)
 process.on("SIGINT", () => {

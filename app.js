@@ -11,6 +11,7 @@ let dbClient;
 app.set('view engine', 'ejs');
 //https://www.youtube.com/watch?v=oHVfnRIx9Us&list=PL0lO_mIqDDFX0qH9w5YQIDV6Wxy0oawet&index=15
 app.use('/public', express.static('public'))
+app.use('/js', express.static('js'))
 //https://www.youtube.com/watch?v=FUf8a47ZT9Q&list=PL0lO_mIqDDFX0qH9w5YQIDV6Wxy0oawet&index=15&t=2s
 app.get('/', function (req, res) {
     res.render('index');
@@ -71,7 +72,7 @@ app.put("/movie-view/:title", jsonParser, function (req, res) {
     const title = req.body.title;
     const userlogin = req.body.userlogin;
     //фильм: просмотр ++
-    db.collection("films").findOneAndUpdate({"title" : title}, {$inc: {"view": 1}});
+    db.collection("films").findOneAndUpdate({"title" : title}, {$inc: {"views": 1}});
     //пользователь: добавление фильма в просмотренные
     db.collection("users").findOneAndUpdate({"login" : userlogin}, {$addToSet: {"view": title}});
 })

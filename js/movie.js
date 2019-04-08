@@ -62,33 +62,28 @@ $("#like").click(function () {
                             break;
                         }
                     }
-                    //присвоение массиву значений всех жанров
                 }
             });
-            //console.log('yeyeye',genreN, genreM)
             if (flag == 0) {
                 //фильм не был отмечен пользователем
                 const status = 1;
-                //console.log(status)
                 $.ajax({
                     url: "/movie/:title",
                     contentType: "application/json",
                     method: "PUT",
                     data: JSON.stringify({
-                        status: status,
                         title: title,
                         userlogin: userlogin,
-                        genreN: genreN
+                        genreN: genreN,
+                        status: status
                     })
                 });
                 like++;
-                //console.log('like', like)
                 $("#span_like").empty();
                 $("#span_like").append(like)
             } else {
                 //фильм уже был отмечен пользователем
                 const status = -1;
-                //console.log(status)
                 $.ajax({
                     url: "/movie/:title",
                     contentType: "application/json",
@@ -101,7 +96,6 @@ $("#like").click(function () {
                     })
                 });
                 like--;
-                //console.log('like', genreM)
                 $("#span_like").empty();
                 $("#span_like").append(like)
             }

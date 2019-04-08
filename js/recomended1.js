@@ -1,12 +1,8 @@
 /////ВЫВОД ФИЛЬМОВ НЕ В ПОРЯДКЕ ВОЗРАСТАНИЯ РЕЙТИНГА, А СООТВЕТСТВИЯ ЮЗЕРАМ
 let likeFilms = [];
-let recomFilms = [];
-let a = [];
 let username = "PewpoMan";
 let genreJ = [];
 let userView = [];
-let userLike = [];
-let betterUser = "";
 let betterUsers = [];
 //находим нашего юзера и запоминаем его осн. жанры
 function CheckGenre() {
@@ -16,14 +12,13 @@ function CheckGenre() {
         contentType: "application/json",
         success: function (users) {
             $.each(users, function (index, user) {
+                //находим запись о текущем пользователе
                 if (user.login == username) {
+                    //сохраняем просмотренные фильмы пользователя
                     userView = user.view;
-                    console.log('user.view', userView)
-                    for (i = 0; i < 10; i++) {
-                        if (user.genrep[i] >= 10) {
+                    for (i = 0; i < 10; i++) 
+                        if (user.genrep[i] >= 10) 
                             genreJ[i] = user.genrep[i];
-                        }
-                    }
                 }
             })
         }
@@ -32,7 +27,6 @@ function CheckGenre() {
 
 
 function SortUsers() {
-
     let namemin = "";
     $.ajax({
         url: "/users",
@@ -51,24 +45,20 @@ function SortUsers() {
                     let sumOtklon = 0;
                     let flag = 0;
                     //проверяем, был ли юзер уже проверен
-                    for (i = 0; i < betterUsers.length + 1; i++) {
+                    for (i = 0; i < betterUsers.length + 1; i++) 
                         if (betterUsers[i] == user.login) {
                             flag = 1;
                             break;
-
                         }
-                    }
+                    
 
                     if (!(user.login == username) && (flag == 0)) {
-                        for (i = 0; i < 10; i++) {
-                            if (user.genrep[i] - genreJ[i]) {
+                        for (i = 0; i < 10; i++) 
+                            if (user.genrep[i] - genreJ[i]) 
                                 sumOtklon += Math.abs(user.genrep[i] - genreJ[i]);
-                            }
-                        }
                         if (sumOtklon <= min) {
                             min = sumOtklon;
                             namemin = user.login;
-                            //console.log('в итоге для user', namemin, 'отклонение', min)
                         }
                     }
                 })
@@ -82,26 +72,19 @@ function SortUsers() {
 //https://medium.com/@frontman/%D0%B4%D0%B5%D0%B4%D1%83%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F-%D0%B8-%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5-%D0%BC%D0%B0%D1%81%D1%81%D0%B8%D0%B2%D0%BE%D0%B2-c2706948c200
 //получение названий фильмов в массив
 function GetLikeMovies1() {
-    let namemin = "";
-    let recomFolms = [];
-    let n = 0;
-    let userLikeList = [];
     $.ajax({
         url: "/users",
         type: "GET",
         contentType: "application/json",
         success: function (users) {
-            //console.log('BetterUsers', betterUsers)
-            //console.log('userView2', userView)
             while (betterUsers.length > 0) {
                 $.each(users, function (index, user) {
                     if (user.login == betterUsers[0]) {
                         console.log('login', user.login)
-                        //console.log('login-like', user.like)
                         for (ii = 0; ii < userView.length; ii++) {
                             for (jj = 0; jj < user.like.length; jj++) {
                                 if (user.like[jj] == userView[ii]) {
-                                    console.log('убираем:', user.like[jj])
+                                    //удаление просмотренного фильма
                                     user.like.splice(jj, 1);
                                     continue;
                                 }
@@ -114,19 +97,15 @@ function GetLikeMovies1() {
                     };
                 });
                 betterUsers.splice(0, 1);
-                n++;
             }
-            console.log('likeFilms', likeFilms)
-            GetRecomended1();
+            GetRecomended();
         }
     })
 }
 
 //вывод ВСЕХ рекомендуемых
-function GetRecomended1() {
-    //let carts = "";
+function GetRecomended() {
     let dontViewFilms = likeFilms;
-    console.log('likeFilms', likeFilms)
     let flag = 0;
     $.ajax({
         url: "/movies",
@@ -139,7 +118,7 @@ function GetRecomended1() {
             //в dontViewFilms хранятся не выведенные фильмы
             //таким образом, можно написать скрипт, который будет 
             //"довыводить" фильмы по запросу пользователя
-            while ((dontViewFilms.length > 0) && (viewFilms < 3)) {
+            while ((dontViewFilms.length > 0) && (viewFilms < 5)) {
                 flag = 0;
                 $.each(movies, function (index, movie) {
                     if (dontViewFilms[0] == movie.title) {
@@ -149,13 +128,12 @@ function GetRecomended1() {
                     }
                 })
                 if (flag == 1) dontViewFilms.splice(0, 1);
-                //console.log('length',dontViewFilms.length)
             }
             console.log('viewFilms', viewFilms)
             console.log('dontViewFilms', dontViewFilms)
             $(".films").append(carts);
             $('#films-more').empty();
-            $('#films-more').append('<button onclick="GetRecomended1()">Показать ещё</button>');
+            $('#films-more').append('<button onclick="GetRecomended()">Показать ещё</button>');
         }
     })
 }

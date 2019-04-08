@@ -1,4 +1,41 @@
 const userlogin = "PewpoMan";
+//VIEW FILM:
+$("#play").click(function () {
+    const title = $("#title_eng").text();
+    let view = Number($("#span_view").text());
+    console.log(view)
+    $.ajax({
+        url: "/users",
+        type: "GET",
+        contentType: "application/json",
+        success: function (users) {
+            flag = 0;
+            $.each(users, function (index, user) {
+                if (user.login == userlogin)
+                    for (i = 0; i < user.view.length; i++)
+                        if (user.view[i] == title) {
+                            flag = 1;
+                            break;
+                        }
+            })
+            if (flag == 0) {
+                $.ajax({
+                    url: "/movie-view/:title",
+                    contentType: "application/json",
+                    method: "PUT",
+                    data: JSON.stringify({
+                        title: title,
+                        userlogin: userlogin
+                    })
+                })
+                view++;
+                $("#span_view").empty();
+                $("#span_view").append(view)
+            }
+        }
+    })
+})
+
 //LIKE FILM:
 $("#like").click(function () {
     //"вытаскиваем" название фильма, имя пользователя и количество "лайков" фильма
@@ -7,10 +44,7 @@ $("#like").click(function () {
     genreN[0] = Number($("#genreN0").text());
     genreN[1] = Number($("#genreN1").text());
     genreN[2] = Number($("#genreN2").text());
-    //let genreM = [];
-    //console.log(genreN)
-    //console.log(title, like)
-    //проверка пользователя: был ли им "лайкнут" фильм:
+    //проверка пользователя: был ли им уже отмечен фильм:
     $.ajax({
         url: "/users",
         type: "GET",
@@ -75,39 +109,3 @@ $("#like").click(function () {
     })
 });
 
-//VIEW FILM:
-$("#play").click(function () {
-    const title = $("#title_eng").text();
-    let view = Number($("#span_view").text());
-    console.log(view)
-    $.ajax({
-        url: "/users",
-        type: "GET",
-        contentType: "application/json",
-        success: function (users) {
-            flag = 0;
-            $.each(users, function (index, user) {
-                if (user.login == userlogin)
-                    for (i = 0; i < user.view.length; i++)
-                        if (user.view[i] == title) {
-                            flag = 1;
-                            break;
-                        }
-            })
-            if (flag == 0) {
-                $.ajax({
-                    url: "/movie-view/:title",
-                    contentType: "application/json",
-                    method: "PUT",
-                    data: JSON.stringify({
-                        title: title,
-                        userlogin: userlogin
-                    })
-                })
-                view++;
-                $("#span_view").empty();
-                $("#span_view").append(view)
-            }
-        }
-    })
-})

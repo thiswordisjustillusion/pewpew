@@ -21,11 +21,9 @@ app.get('/', function (req, res) {
 app.get('/recomended1', function (req, res) {
     res.render('recomended1');
 })
-
 app.get('/recomended2', function (req, res) {
     res.render('recomended2');
 })
-
 app.get('/movie/:title', function (req, res) {
     const db = req.app.locals.db;
     db.collection("films").findOne({"title" : req.params.title},function (err, movie) {
@@ -71,9 +69,9 @@ app.put("/movie-view/:title", jsonParser, function (req, res) {
 
     const title = req.body.title;
     const userlogin = req.body.userlogin;
-    //фильм: просмотр ++
+    //фильм: увеличение просмотров на одну единицу:
     db.collection("films").findOneAndUpdate({"title" : title}, {$inc: {"views": 1}});
-    //пользователь: добавление фильма в просмотренные
+    //пользователь: добавление фильма в просмотренные:
     db.collection("users").findOneAndUpdate({"login" : userlogin}, {$addToSet: {"view": title}});
 })
 
@@ -184,13 +182,11 @@ app.post("/movies", jsonParser, function (req, res) {
             db.collection("films").find({ "genreN": { $all: checkedGenre }, "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ [checkedSort]: -1 }).toArray(function (err, movies) {
                 if (err) return console.log(err);
                 res.send(movies)
-                //console.log(movies)
             });
     } else {
             db.collection("films").find({ "year": { $gte: checkedYear1, $lte: checkedYear2 } }).sort({ [checkedSort]: -1 }).toArray(function (err, movies) {
                 if (err) return console.log(err);
                 res.send(movies)
-                //console.log(movies)
             });
     }
 

@@ -1,11 +1,9 @@
 //поиск
 $("#btn-search").click(function () {
-    let letSearch = "";
-    let Scarts = "";
+    let letSearch = "", Scarts = "";
     $('#IDsearch:text').val(function () {
         letSearch += ($(this).val())
     });
-    console.log('letSearch', letSearch)
     $.ajax({
         url: "/search",
         contentType: "application/json",
@@ -15,7 +13,6 @@ $("#btn-search").click(function () {
         }),
         success: function (sumSearch) {
             $.each(sumSearch, function (index, search) {
-                console.log('search', search);
                 Scarts += cart(search);
             })
             $(".films").empty();

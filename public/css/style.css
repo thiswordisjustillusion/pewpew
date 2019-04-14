@@ -42,7 +42,7 @@ ul.filter-sort > li {display: inline-block; cursor: pointer; margin: 0 40px 0 40
 .films {text-align: center}
 #films-more {text-align: center}
 
-.cart {margin: 10px; padding: 0; text-align: center; display: inline-block;}
+.cart {margin: 10px; padding: 0; text-align: center; display: inline-block; width: 200px;}
 .cart img{max-height: 200px; max-width: 200px;}
 
 #filter-submit {margin: 15px 0 0 20%}

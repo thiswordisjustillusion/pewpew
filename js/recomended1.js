@@ -98,6 +98,7 @@ function GetLikeMovies1() {
                 });
                 betterUsers.splice(0, 1);
             }
+            console.log('likeFilms', likeFilms)
             GetRecomended();
         }
     })

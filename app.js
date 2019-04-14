@@ -37,7 +37,7 @@ mongoClient.connect(function (err, client) {
     if (err) return console.log(err);
     dbClient = client
     app.locals.db = client.db("PewpoDB");
-    app.listen(3000, function () {
+    app.listen(3001, function () {
         console.log("Сервер:3000");
     });
 });

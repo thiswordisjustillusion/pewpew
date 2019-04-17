@@ -15,9 +15,9 @@ $("#btn-search").click(function () {
             $.each(sumSearch, function (index, search) {
                 Scarts += cart(search);
             })
-            $(".films").empty();
+            $(".content").empty();
             $("#films-more").empty();
-            $(".films").append(Scarts);
+            $(".content").append("<div class='films'>" + Scarts + "</div>");
         }
     })
 });

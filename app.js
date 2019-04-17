@@ -130,39 +130,41 @@ app.post("/search", jsonParser, function (req, res) {
     if (!req.body) return res.sendStatus(400);
     const db = req.app.locals.db;
 
-    const letSearch = req.body.searchM;
+    let letSearch = req.body.searchM.toLowerCase().replace(/[\/\\#&,()$~%.'"—:*?<>{} \-_=\[\]]/g, "");
     let sumSearch = [];
-
-    //поиск по названию
-    db.collection("films").find({ "title": letSearch }).sort({ "rating": -1 }).toArray(async function (err, searchTitle) {
+    db.collection("films").find({}).sort({ "rating": -1 }).toArray(async function (err, search) {
         if (err) return console.log(err);
-        //res.send(searchTitle)
-        if (searchTitle.length > 0)
-            for (i = 0; i < searchTitle.length; i++)
-                sumSearch.push(searchTitle[i])
-        console.log('Поиск по фильмам:', sumSearch.length)
+        for (i = 0; i < search.length; i++) {
+            let flag = 0;
+            //перевод "поисковых критериев" в нижний регистр и удаление спецсимволов
+            const newTitle = search[i].title.toLowerCase().replace(/[\/\\#&,()$~%.`'":—*?< >{}\-_=\[\]]/g, "");
+            const newTitleRus = search[i].title_rus.toLowerCase().replace(/[\/\\#&,()$~%.'—":*?< >{}\-_=\[\]]/g, "");
+            const newProducer = [];
+            for (j = 0; j < search[i].producer.length; j++) newProducer.push(search[i].producer[j].toLowerCase().replace(/[\/\\#&,+( )$~%.'—":*?<>{}\-_=\[\]]/g, ""));
+            //search[i].producer.toLowerCase().replace(/[\/\\#&,()$~%.'":*?<>{}\-_=\[\]]/g, ""); 
+            const newActors = [];
+            for (j = 0; j < search[i].actors.length; j++) newActors.push(search[i].actors[j].toLowerCase().replace(/[\/\\#&,+()$~%. '":*?<—>{}\-_=\[\]]/g, ""));
+            //поиск фильмов по "поисковым критериям"
+            if ((letSearch == newTitle) || (letSearch == newTitleRus)) {
+                sumSearch.push(search[i]);
+                flag = 1;
+            }
+            if (flag == 0) for (j = 0; j < newProducer.length; j++)
+                if (letSearch == newProducer[j]) {
+                    sumSearch.push(search[i]);
+                    flag = 1;
+                    console.log(newProducer[j])
+                }
+            if (flag == 0) for (j = 0; j < newActors.length; j++)
+                if (letSearch == newActors[j]) {
+                    sumSearch.push(search[i])
+                    flag = 1;
+                    console.log(newActors[j])
+                }
+        }
+        console.log(sumSearch)
+        res.send(sumSearch)
     });
-    //поиск по режиссёру
-    db.collection("films").find({ "producer": letSearch }).sort({ "rating": -1 }).toArray(async function (err, searchProducer) {
-        if (err) return console.log(err);
-        //res.send(searchTitle)
-        if (searchProducer.length > 0)
-            for (i = 0; i < searchProducer.length; i++)
-                sumSearch.push(searchProducer[i])
-        console.log('Поиск по режиссёрам:', searchProducer.length)
-    });
-    //поиск по актёрам
-    db.collection("films").find({ "actors": letSearch }).sort({ "rating": -1 }).toArray(async function (err, searchActors) {
-        if (err) return console.log(err);
-        //res.send(searchActors)
-        if (searchActors.length > 0)
-            for (i = 0; i < searchActors.length; i++)
-                sumSearch.push(searchActors[i]);
-        console.log('Поиск по актёрам:', searchActors.length)
-        res.send(sumSearch);
-    });
-
-
 });
 
 //фильтрация и сортировка

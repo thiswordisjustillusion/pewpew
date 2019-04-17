@@ -16,11 +16,11 @@ div.content {width: 60%; margin: auto; background: rgb(243, 243, 243)}
 #title_rus {font-size: 35px;}
 #title_eng {font-size: 25px;}
 div.content img {width: 100%; cursor: pointer;}
-div.description-text {width: 65%; padding-left: 20px; float: left}
+div.description-text {width: 55%; padding-left: 20px; float: left}
 #like{float: left; font-size: 25px; margin-right: 20%; cursor: pointer;}
 #views {font-size: 25px}
 div.description-text .desc {font-size: 22px}
-div.description {float: right; font-size: 20px; margin-top: 50px; padding-right: 20px}
+div.description {width:40%; float: right; font-size: 20px; margin-top: 50px; padding-right: 20px}
 div.description .leftcol {font-weight: 600; vertical-align: top}
 div.description td {padding-top: 10px}
 ul.filter-sort {text-align: center; padding-top: 20px; position: relative; font-size: 20px}

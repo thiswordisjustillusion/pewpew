@@ -134,7 +134,7 @@ function GetRecomended() {
             console.log('dontViewFilms', dontViewFilms)
             $(".films").append(carts);
             $('#films-more').empty();
-            $('#films-more').append('<button onclick="GetRecomended()">Показать ещё</button>');
+            $('#films-more').append('<button onclick="GetRecomended()" class="btn-color btn-more">Показать ещё</button>');
         }
     })
 }

@@ -107,7 +107,7 @@ function GetRecomended2() {
             console.log('likeFilms2', likeFilms2)
             $(".films").append(carts);
             $('#films-more').empty();
-            $('#films-more').append('<button onclick="GetRecomended2()">Показать ещё</button>');
+            $('#films-more').append('<button onclick="GetRecomended2()" class="btn-color btn-more">Показать ещё</button>');
         }
     })
 }

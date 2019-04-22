@@ -19,7 +19,6 @@
 
         <!-- Фильтрация + сортировка -->
         <ul class="filter-sort">
-            <span class="before"></span>
             <li class="genres filt">Жанры
                 <ul class="subgenres sub">
                     <li><input type="checkbox" class="boxGenre" id="g0" value=0 />боевик</li>
@@ -39,10 +38,6 @@
                         <li><input type="text" class="boxYear" id="year1" readonly></li>
                         <li><input type="text" class="boxYear" id="year2" readonly></li>
                         <li><div id="slider-range"></div></li>
-                    <!--
-                    <li><input type="text" class="boxYear" id="year1" placeholder="С" /></li>
-                    <li><input type="text" class="boxYear" id="year2" placeholder="До" /></li>
-                    -->
                 </ul>
             </li>
             <li class="countries filt">Страны
@@ -63,7 +58,7 @@
                 </ul>                
             </li>
             <li>
-                <button id="btn-genre">применить</button>
+                <button id="btn-genre" class="btn-color">применить</button>
             </li>
         </ul>
 
@@ -71,6 +66,9 @@
         <div class="films"></div>
         <div id="films-more"></div>
     </div>
+
+    <!-- Подвал -->
+    <% include blocks/footer.ejs %>
     <script src="/js/index.js"></script>
     <script src="/js/script.js"></script>
     <script src="/js/jquery-ui.js"></script>

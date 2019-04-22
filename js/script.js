@@ -30,3 +30,4 @@ let cart = function (movie) {
         "<a class='title' href='/movie/" + movie.title + "'><div>" + movie.title_rus + "</br>" +
         "</div><img src='/public/img/" + movie.img + "' /></a></div>";
 }
+

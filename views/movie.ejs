@@ -15,62 +15,72 @@
 
     <!-- Контент -->
     <div class="content">
-            <div id="div-title">
-                <p id="title"><b id="title_rus"><%= movie.title_rus %> </b><i id="title_eng"><%= movie.title %></i></p>
-                <p id="genre"><%= movie.genre[0] %>, <%= movie.genre[1] %>, <%= movie.genre[2] %></p>
-                <p id="genreN"><span id="genreN0"><%= movie.genreN[0] %></span>, <span
-                        id="genreN1"><%= movie.genreN[1] %></span>, <span id="genreN2"><%= movie.genreN[2] %></span></p>
-            </div>
-            <img src="/public/img/play.jpg" id="play" />
-            <div class="description-text">
-                <button id="like">like: <span id="span_like"><%= movie.like %></span></button> <button
-                    id="views">Просмотры: <span id="span_view"><%= movie.views %></span></button>
-                <p class="desc"><%= movie.description %></p>
-            </div>
-            <div class="description">
-                <table>
-                    <tr>
-                        <td class="leftcol">Год:</td>
-                        <td class="rightcol"><%= movie.year %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftcol">Рейтинг:</td>
-                        <td class="rightcol"><%= movie.rating %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftcol">Длительность:</td>
-                        <td class="rightcol"><%= movie.duration %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftcol">Страна:</td>
-                        <td class="rightcol"><%= movie.country %></td>
-                    </tr>
-                    <tr>
-                        <td class="leftcol">Режиссёр:</td>
-                        <td class="rightcol">
-                            <ul>
-                                <% movie.producer.forEach(function(item) { %>
-                                <li><%= item %></li>
-                                <% }); %>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="leftcol">В ролях:</td>
-                        <td class="rightcol">
-                            <ul>
-                                <% movie.actors.forEach(function(item) { %>
-                                <li><%= item %></li>
-                                <% }); %>
-                            </ul>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        
+        <div id="div-title">
+            <p id="title"><b id="title_rus"><%= movie.title_rus %></b> </br> <i id="title_eng"><%= movie.title %></i></p>
+            <p id="genre"><%= movie.genre[0] %>, <%= movie.genre[1] %>, <%= movie.genre[2] %></p>
+        </div>
+
+        <div class="img-container" id="play">
+        </div> 
+
+        <div class="description-text">
+            <button id="like">like: <span id="span_like"><%= movie.like %></span></button> <button id="views">Просмотры:
+                <span id="span_view"><%= movie.views %></span></button>
+            <p class="desc"><%= movie.description %></p>
+        </div>
+        <div class="description">
+            <table>
+                <tr>
+                    <td class="leftcol">Год:</td>
+                    <td class="rightcol"><%= movie.year %></td>
+                </tr>
+                <tr>
+                    <td class="leftcol">Рейтинг:</td>
+                    <td class="rightcol"><%= movie.rating %></td>
+                </tr>
+                <tr>
+                    <td class="leftcol">Длительность:</td>
+                    <td class="rightcol"><%= movie.duration %></td>
+                </tr>
+                <tr>
+                    <td class="leftcol">Страна:</td>
+                    <td class="rightcol"><%= movie.country %></td>
+                </tr>
+                <tr>
+                    <td class="leftcol">Режиссёр:</td>
+                    <td class="rightcol">
+                        <ul>
+                            <% movie.producer.forEach(function(item) { %>
+                            <li><%= item %></li>
+                            <% }); %>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="leftcol">В ролях:</td>
+                    <td class="rightcol">
+                        <ul>
+                            <% movie.actors.forEach(function(item) { %>
+                            <li><%= item %></li>
+                            <% }); %>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
+    <!-- Подвал -->
+    <% include blocks/footer.ejs %>
+    <p id="genreN"><span id="genreN0"><%= movie.genreN[0] %></span>, <span id="genreN1"><%= movie.genreN[1] %></span>, <span id="genreN2"><%= movie.genreN[2] %></span></p>
+    <span style="display:none" id="span-img-play"><%= movie.img_play%></span>
     <script src="/js/movie.js"></script>
     <script src="/js/script.js"></script>
+    <script>
+        //вставляем картинку в плеер
+        const imgPlay = $("#span-img-play").text()
+        $(".img-container").append('<img src="/public/img/play/' + imgPlay + '" class="img-play-film" style="width: 100%" />');
+        $(".img-container").append('<img src="/public/img/play/play2.png" style="height: 250px; width: 250px" />');
+    </script>
 </body>
 
 </html>

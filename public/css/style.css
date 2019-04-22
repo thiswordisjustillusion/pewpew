@@ -1,54 +1,77 @@
-body {margin: 0; padding: 0; background: rgb(223, 219, 226)}
+body {margin: 0; padding: 0; background: #f2e5ff}
 ul {list-style: none; margin: 0; padding-left: 0}
 a {text-decoration: none; color: black}
-a:hover {color: #ca5100}
+a:hover {color: rgb(255, 127, 22)}
 
-nav {height: 60px; background: #491277; color: white; font-family: "Anvyl"}
+nav {height: 60px; background: #491277; color: white; font-family: "Anvyl"; position: fixed; top: 0; left: 0; width: 100%; z-index: 999;}
+footer { background: #491277; color: white; font-family: "Anvyl";  font-size: 35px; padding: 15px; padding-left: 20%; margin:0; bottom: 0}
 
-ul.menu-main {text-align: center; font-size: 35px; padding-top: 10px; padding-left: 20%; padding-right: 20%; position: relative}
+ul.menu-main {text-align: center; font-size: 35px; ;padding-top: 10px;  position: relative;}
 ul.menu-main > li {display: inline-block; }
-ul.menu-main a { color: white; margin: 0 80px 0 80px}
-ul.menu-main a:hover { color: #ca5100}
+#main-li {padding-right: 9%}
+#recomended-li {padding-left: 9%}
+#recomended-ul {display: none; background: #491277; position: absolute; text-align: left; width: 410px; padding: 17px 0 10px 11px; margin-left: -10px; z-index: 999999;}
+#recomended-li:hover #recomended-ul {display: block;}
+ul.menu-main a { color: white;}
+ul.menu-main a:hover { color: rgb(255, 151, 65)}
 
+#h1-recomended {font-family: "Anvyl"; margin: 0 40px; padding-top: 15px; font-size: 32px}
 
-div.content {width: 60%; margin: auto; background: rgb(223, 219, 226)}
+div.content {width: 60%; margin: 60px auto 0 auto; padding-bottom: 60px; background: white;font-family: "Glober"}
 
-
-#div-title {padding: 0 20px 10px 20px}
-#title, #genre {width: 50%; float: left;}
-#genre {text-align: right; font-size: 23px; font-style: italic;}
-#genreN{text-align: right; font-size: 23px; font-style: italic; display: none}
-#title_rus {font-size: 35px;}
-#title_eng {font-size: 25px;}
+#div-title {padding-top: 5px; padding-left: 20px}
+#genre {font-size: 20px; margin-top: -40px; text-align: right; padding-right: 20px;}
+#genreN{font-size: 20px; display: none}
+#title_rus {font-size: 30px;}
+#title_eng {font-size: 20px;}
 div.content img {width: 100%; cursor: pointer;}
-div.description-text {width: 55%; padding-left: 20px; float: left}
-#like{float: left; font-size: 25px; margin-right: 20%; cursor: pointer;}
+div.description-text {width: 55%; padding-left: 20px; }
+#like{ 
+    border: none;
+    font-size: 25px; font-family: "Glober";
+    background: #f2e5ff;
+    border-radius: 5px;
+    padding: 4px 25px 2px 25px;
+    cursor: pointer;
+    margin-right: 20%;
+    outline:none
+}
 .likeY {color: green}
 .likeN {color: red}
-#views {font-size: 25px}
+#views {
+    border: none;
+    font-size: 25px; font-family: "Glober";
+    background: #f2e5ff;
+    border-radius: 5px;
+    padding: 4px 25px 2px 25px;
+    color: black;
+    outline:none
+}
 div.description-text .desc {font-size: 22px}
-div.description {width:40%; float: right; font-size: 20px; margin-top: 50px; padding-right: 20px}
+div.description {width:40%; ; font-size: 20px; margin-top: 50px; padding-right: 20px}
 div.description .leftcol {font-weight: 600; vertical-align: top}
 div.description td {padding-top: 10px}
 ul.filter-sort {text-align: center; padding-top: 30px; position: relative; font-size: 20px; font-family: "Glober"}
-ul.filter-sort > li {display: inline-block; cursor: pointer; text-align: left; margin-left: 10px; margin-right: 10px}
-
-#recomended-ul {display: none; background: #491277; position: absolute; text-align: left; padding-top: 5px; padding-bottom: 5px; width: 600px;z-index: 999999;}
-#recomended-li:hover #recomended-ul {display: block; padding: 15px 0 15px 0}
+ul.filter-sort > li {display: inline-block; cursor: default; text-align: left; margin-left: 10px; margin-right: 10px}
 
 #search-li {position: relative; top: -8px; display: inline-table}
 #IDsearch {margin: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border: none; height: 28px; width: 285px; padding-left: 10px; font-family: "Glober"} 
-#btn-search {border-top-right-radius: 5px; border-bottom-right-radius: 5px; border: none; height: 30px; width: 80px; font-family: "Glober"; font-size: 18px}
+#btn-search {background: #f2e5ff; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border: none; height: 30px; width: 80px; font-family: "Glober"; font-size: 18px}
+#btn-search:focus {
+    background: rgb(255, 151, 65);
+    outline:none
+}
+.filt {padding: 10px 25px 2px 25px; border-top-left-radius: 5px; border-top-right-radius: 5px;}
+.filt:hover {border-bottom: rgb(255, 151, 65) solid 2px; background-color: white; background: #faf4ff}
 
-.filt {padding: 10px 25px 7px 25px; border-top-left-radius: 5px; border-top-right-radius: 5px;}
-.filt:hover {background-color: white; }
+.sub {margin-top: 4px; margin-left: -25px; border-top-right-radius: 5px; background-color:  #faf4ff} 
+.sub input {cursor: pointer; background: none}
+.boxYear {cursor: default}
 
-.sub {margin-top: 4px; margin-left: -25px; border-top-right-radius: 5px}
-
-.subgenres {display: none; background: #fcfcfc; position: absolute; padding: 10px; }
+.subgenres {display: none; ; position: absolute; padding: 10px; }
 .genres:hover .subgenres {display: block; }
 
-.subyears {display: none; background: #fcfcfc; position: absolute; padding: 10px; }
+.subyears {display: none; ; position: absolute; padding: 10px; }
 .years:hover .subyears {display: block;}
 
 .boxYear {border: none;width: 30px; height: 10px; text-align: center}
@@ -56,29 +79,70 @@ ul.filter-sort > li {display: inline-block; cursor: pointer; text-align: left; m
 #year2 {float: right}
 #slider-range {margin-top: 30px; width: 400px}
 
-.subcountries {display: none; background: #fcfcfc; position: absolute;  padding: 10px}
+.subcountries {display: none; ; position: absolute;  padding: 10px}
 .countries:hover .subcountries {display: block;}
 
-.subsort {display: none; background: #fcfcfc; position: absolute;  padding: 10px}
+.subsort {display: none; ; position: absolute;  padding: 10px}
 .sort:hover .subsort {display: block;}
 
-#btn-genre {
+.btn-color {
     border: none;
     font-size: 18px; font-family: "Glober";
-    background: rgb(255, 127, 22);
+    background: #f2e5ff;
     border-radius: 5px;
-    padding: 5px 25px 5px 25px;
+    padding: 4px 25px 2px 25px;
     cursor: pointer;
+    color: black
 }
+.btn-color:focus {
+    background: rgb(255, 151, 65);
+    outline:none
+}
+.btn-more {margin-top: 10px; padding: 6px 35px 4px 35px}
 
 .films {padding-top: 10px; text-align: center}
 #films-more {text-align: center}
 
-.cart {margin: 10px; padding: 0;  display: inline-block; width: 200px; height: 334px}
+.cart {margin: 20px 10px 20px 10px; padding: 0;  display: inline-block; width: 200px; height: 334px}
 .cart div {vertical-align: middle; font-family: "Glober"; width: 200px; height: 40px; padding-top: 5px;border-top-left-radius: 10px; border-top-right-radius: 10px; background: #A358E4; }
 .title {color:white;  }
-.title:hover {color: #444444}
+.title:hover {color: rgb(255, 151, 65)}
 .cart img{width: 200px; height: 295px}
+
+/* наложение */
+.img-container {
+    max-height: 1080px;
+    min-height: 642px;
+    width: 100%;
+    position: relative;
+    background: black;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+.img-container img {
+    position:absolute;
+    top:0;
+    left:0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+}
+
+/* затемнение + блюр */
+.img-play-film {
+    height: 100%;
+    width: 100%;
+    filter: blur(1px);
+    position: absolute;
+    opacity:0.4;
+    background-color:#000;
+}
+
+
+
+    
+
+
 
 @font-face {
     font-family: "Handelson-FiveCYR";

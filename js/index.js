@@ -16,7 +16,7 @@ $(function () {
         min: 1950,
         max: 2020,
         values: [1950, 2020],
-        slide: function (ui) {
+        slide: function (event, ui) {
             $("#year1").val(ui.values[0]);
             $("#year2").val(ui.values[1]);
         }
@@ -107,7 +107,7 @@ function GetFilterMovie() {
 
     $('.films').append(carts);
     $('#films-more').empty();
-    $('#films-more').append('<button onclick="GetFilterMovie()">Показать ещё</button>');
+    $('#films-more').append('<button onclick="GetFilterMovie()" class="btn-color btn-more">Показать ещё</button>');
 }
 
 
@@ -148,6 +148,6 @@ function GetMovies2() {
     console.log('dontViewFilms', dontViewFilms)
     $(".films").append(carts);
     $('#films-more').empty();
-    $('#films-more').append('<button onclick="GetMovies2()">показать больше</button>');
+    $('#films-more').append('<button onclick="GetMovies2()" class="btn-color btn-more">показать больше</button>');
 }
 GetMovies1()

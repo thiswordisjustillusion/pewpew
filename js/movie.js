@@ -1,4 +1,5 @@
 const userlogin = "PewpoMan";
+CheckLike();
 //VIEW FILM:
 $("#play").click(function () {
     const title = $("#title_eng").text();
@@ -35,6 +36,10 @@ $("#play").click(function () {
         }
     })
 })
+
+
+
+
 
 //LIKE FILM:
 $("#like").click(function () {
@@ -81,6 +86,8 @@ $("#like").click(function () {
                 like++;
                 $("#span_like").empty();
                 $("#span_like").append(like)
+                $('#like').removeClass('likeN');
+                $('#like').addClass('likeY');
             } else {
                 //фильм уже был отмечен пользователем
                 const status = -1;
@@ -98,8 +105,44 @@ $("#like").click(function () {
                 like--;
                 $("#span_like").empty();
                 $("#span_like").append(like)
+                $('#like').toggleClass('likeN');
+
+                $('#like').removeClass('likeY');
+                $('#like').addClass('likeN');
             }
         }
     })
 });
+function CheckLike() {
+    const title = $("#title_eng").text()
+    let flag = 0;
+    $.ajax({
+        url: "/users",
+        type: "GET",
+        contentType: "application/json",
+        success: function (users) {
+            $.each(users, function (index, user) {
+                if (user.login == userlogin) {
+                    flag = 0;
+                    console.log(user.login, title)
+                    for (i = 0; i < user.like.length; i++) {
+                        if (user.like[i] == title) {
+                            //фильм уже был отмечен пользователем
+                            console.log(user.like[i])
+                            flag = 1;
+                        }
+                    }
+                    if (flag == 1) {
+                        $('#like').removeClass('likeN');
+                        $('#like').addClass('likeY');
+                    } else {
+                        $('#like').removeClass('likeY');
+                        $('#like').addClass('likeN');
+                    }
+                }
+            });
+        }
+    })
+}
+
 

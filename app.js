@@ -132,37 +132,35 @@ app.post("/search", jsonParser, function (req, res) {
 
     let letSearch = req.body.searchM.toLowerCase().replace(/[\/\\#&,()$~%.'"—:*?<>{} \-_=\[\]]/g, "");
     let sumSearch = [];
+
     db.collection("films").find({}).sort({ "rating": -1 }).toArray(async function (err, search) {
         if (err) return console.log(err);
         for (i = 0; i < search.length; i++) {
             let flag = 0;
-            //перевод "поисковых критериев" в нижний регистр и удаление спецсимволов
-            const newTitle = search[i].title.toLowerCase().replace(/[\/\\#&,()$~%.`'":—*?< >{}\-_=\[\]]/g, "");
-            const newTitleRus = search[i].title_rus.toLowerCase().replace(/[\/\\#&,()$~%.'—":*?< >{}\-_=\[\]]/g, "");
+            //перевод "поисковых критериев" в нижний регистр, удаление спецсимволов и подготовка к поиску
+            const newTitle = search[i].title.toLowerCase().replace(/[\/\\#&,()$~%.`'":—*?< >{}\-_=\[\]]/g, "").concat('1');
+            const newTitleRus = search[i].title_rus.toLowerCase().replace(/[\/\\#&,()$~%.'—":*?< >{}\-_=\[\]]/g, "").concat('1');
             const newProducer = [];
-            for (j = 0; j < search[i].producer.length; j++) newProducer.push(search[i].producer[j].toLowerCase().replace(/[\/\\#&,+( )$~%.'—":*?<>{}\-_=\[\]]/g, ""));
-            //search[i].producer.toLowerCase().replace(/[\/\\#&,()$~%.'":*?<>{}\-_=\[\]]/g, ""); 
+            for (j = 0; j < search[i].producer.length; j++) newProducer.push(search[i].producer[j].toLowerCase().replace(/[\/\\#&,+( )$~%.'—":*?<>{}\-_=\[\]]/g, "").concat('1'));
             const newActors = [];
-            for (j = 0; j < search[i].actors.length; j++) newActors.push(search[i].actors[j].toLowerCase().replace(/[\/\\#&,+()$~%. '":*?<—>{}\-_=\[\]]/g, ""));
-            //поиск фильмов по "поисковым критериям"
-            if ((letSearch == newTitle) || (letSearch == newTitleRus)) {
+            for (j = 0; j < search[i].actors.length; j++) newActors.push(search[i].actors[j].toLowerCase().replace(/[\/\\#&,+()$~%. '":*?<—>{}\-_=\[\]]/g, "").concat('1'));
+
+            //поиск подстроки letSearch
+            if ((newTitle.search(letSearch) != -1 ) || (newTitleRus.search(letSearch) != -1)) {
                 sumSearch.push(search[i]);
                 flag = 1;
             }
-            if (flag == 0) for (j = 0; j < newProducer.length; j++)
-                if (letSearch == newProducer[j]) {
+            if (flag == 0) for (j=0; j<newProducer.length; j++) 
+                if (newProducer[j].search(letSearch) != -1 ) {
                     sumSearch.push(search[i]);
                     flag = 1;
-                    console.log(newProducer[j])
                 }
-            if (flag == 0) for (j = 0; j < newActors.length; j++)
-                if (letSearch == newActors[j]) {
-                    sumSearch.push(search[i])
+            if (flag == 0) for (j=0; j<newActors.length; j++) 
+                if (newActors[j].search(letSearch) != -1 ) {
+                    sumSearch.push(search[i]);
                     flag = 1;
-                    console.log(newActors[j])
                 }
         }
-        console.log(sumSearch)
         res.send(sumSearch)
     });
 });

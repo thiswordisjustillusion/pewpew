@@ -24,8 +24,9 @@ $("#btn-search").click(function () {
 
 // вывод фильмов
 let cart = function (movie) {
+    movie.genre[0] += ' '
+    movie.genre[1] += ' '
     return "<div class='cart' id='" + movie._id + "'>" +
         "<a class='title' href='/movie/" + movie.title + "'>" + movie.title_rus + "</br>" +
-        "<img src='/public/img/" + movie.img + "' /></a></br>" +
-        movie.genre + "</br> Рейтинг: " + movie.rating + "</div>";
+        "<img src='/public/img/" + movie.img + "' /></a></br> Рейтинг: " + movie.rating + "</div>";
 }

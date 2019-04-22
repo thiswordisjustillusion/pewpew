@@ -9,6 +9,22 @@ $('.boxGenre:checkbox').click(function () {
     }
 })
 
+//горизонтальный слайдер boxYear
+$(function () {
+    $("#slider-range").slider({
+        range: true,
+        min: 1950,
+        max: 2020,
+        values: [1950, 2020],
+        slide: function (event, ui) {
+            $("#year1").val(ui.values[0]);
+            $("#year2").val(ui.values[1]);
+        }
+    });
+    $("#year1").val($("#slider-range").slider("values", 0));
+    $("#year2").val($("#slider-range").slider("values", 1));
+});
+
 //отправка формы и получение готового списка бла бла бла хочу спать
 $("#btn-genre").click(function () {
     //жанры

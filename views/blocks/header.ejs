@@ -1,11 +1,15 @@
 <nav>
     <ul class="menu-main">
-        <li><a href="/">Смотреть</a></li>
-        <li><a href="/recomended1">Рекомендации1</a></li>
-        <li><a href="/recomended2">Рекомендации2</a></li>
-        <li>
+        <li id="main-li"><a href="/">На главную</a></li>
+        <li id="search-li">
             <input type="text" id="IDsearch" placeholder="Поиск" />
             <button id="btn-search">поиск</button>
+        </li>
+        <li id="recomended-li"><a href="/">Рекомендации</a> 
+            <ul id="recomended-ul">
+                <li><a href="/recomended1">Рекомендации редакции</a></li>
+                <li><a href="/recomended2">Рекомендации пользователей</a></li>
+            </ul>
         </li>
     </ul>
 </nav>

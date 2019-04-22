@@ -27,6 +27,6 @@ let cart = function (movie) {
     movie.genre[0] += ' '
     movie.genre[1] += ' '
     return "<div class='cart' id='" + movie._id + "'>" +
-        "<a class='title' href='/movie/" + movie.title + "'>" + movie.title_rus + "</br>" +
-        "<img src='/public/img/" + movie.img + "' /></a></br> Рейтинг: " + movie.rating + "</div>";
+        "<a class='title' href='/movie/" + movie.title + "'><div>" + movie.title_rus + "</br>" +
+        "</div><img src='/public/img/" + movie.img + "' /></a></div>";
 }

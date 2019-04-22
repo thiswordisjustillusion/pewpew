@@ -1,14 +1,18 @@
-body {margin: 0; padding: 0}
+body {margin: 0; padding: 0; background: rgb(223, 219, 226)}
 ul {list-style: none; margin: 0; padding-left: 0}
 a {text-decoration: none; color: black}
+a:hover {color: #ca5100}
 
-nav {height: 100px; background: #353535; color: white;}
+nav {height: 60px; background: #491277; color: white; font-family: "Anvyl"}
 
-ul.menu-main {text-align: center; font-size: 25px; padding-top: 30px; padding-left: 20%; padding-right: 20%}
-ul.menu-main > li {display: inline-block;}
+ul.menu-main {text-align: center; font-size: 35px; padding-top: 10px; padding-left: 20%; padding-right: 20%; position: relative}
+ul.menu-main > li {display: inline-block; }
 ul.menu-main a { color: white; margin: 0 80px 0 80px}
+ul.menu-main a:hover { color: #ca5100}
 
-div.content {width: 60%; margin: auto; background: rgb(243, 243, 243)}
+
+div.content {width: 60%; margin: auto; background: rgb(223, 219, 226)}
+
 
 #div-title {padding: 0 20px 10px 20px}
 #title, #genre {width: 50%; float: left;}
@@ -26,20 +30,25 @@ div.description-text .desc {font-size: 22px}
 div.description {width:40%; float: right; font-size: 20px; margin-top: 50px; padding-right: 20px}
 div.description .leftcol {font-weight: 600; vertical-align: top}
 div.description td {padding-top: 10px}
-ul.filter-sort {text-align: center; padding-top: 20px; position: relative; font-size: 20px}
-ul.filter-sort > li {display: inline-block; cursor: pointer; margin: 0 50px 0 50px; text-align: left}
+ul.filter-sort {text-align: center; padding-top: 30px; position: relative; font-size: 20px; font-family: "Glober"}
+ul.filter-sort > li {display: inline-block; cursor: pointer; text-align: left; margin-left: 10px; margin-right: 10px}
 
+#recomended-ul {display: none; background: #491277; position: absolute; text-align: left; padding-top: 5px; padding-bottom: 5px; width: 600px;z-index: 999999;}
+#recomended-li:hover #recomended-ul {display: block; padding: 15px 0 15px 0}
 
-#recomended-ul {display: none; background: #353535; position: absolute; text-align: left}
-#recomended-li:hover #recomended-ul {display: block; margin-top: -28px}
+#search-li {position: relative; top: -8px; display: inline-table}
+#IDsearch {margin: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border: none; height: 28px; width: 285px; padding-left: 10px; font-family: "Glober"} 
+#btn-search {border-top-right-radius: 5px; border-bottom-right-radius: 5px; border: none; height: 30px; width: 80px; font-family: "Glober"; font-size: 18px}
 
-#IDsearch {margin: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border: none; height: 25px; width: 300px} 
-#btn-search {margin-left: -7px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border: none; height: 27px; width: 80px}
+.filt {padding: 10px 25px 7px 25px; border-top-left-radius: 5px; border-top-right-radius: 5px;}
+.filt:hover {background-color: white; }
 
-.subgenres {display: none; background: #fcfcfc; position: absolute; padding: 10px}
-.genres:hover .subgenres {display: block;}
+.sub {margin-top: 4px; margin-left: -25px; border-top-right-radius: 5px}
 
-.subyears {display: none; background: #fcfcfc; position: absolute; padding: 10px;}
+.subgenres {display: none; background: #fcfcfc; position: absolute; padding: 10px; }
+.genres:hover .subgenres {display: block; }
+
+.subyears {display: none; background: #fcfcfc; position: absolute; padding: 10px; }
 .years:hover .subyears {display: block;}
 
 .boxYear {border: none;width: 30px; height: 10px; text-align: center}
@@ -53,9 +62,60 @@ ul.filter-sort > li {display: inline-block; cursor: pointer; margin: 0 50px 0 50
 .subsort {display: none; background: #fcfcfc; position: absolute;  padding: 10px}
 .sort:hover .subsort {display: block;}
 
-.films {text-align: center}
+#btn-genre {
+    border: none;
+    font-size: 18px; font-family: "Glober";
+    background: rgb(255, 127, 22);
+    border-radius: 5px;
+    padding: 5px 25px 5px 25px;
+    cursor: pointer;
+}
+
+.films {padding-top: 10px; text-align: center}
 #films-more {text-align: center}
 
-.cart {margin: 10px; padding: 0; text-align: center; display: inline-block; width: 200px;}
-.cart img{max-height: 200px; max-width: 200px;}
+.cart {margin: 10px; padding: 0;  display: inline-block; width: 200px; height: 334px}
+.cart div {vertical-align: middle; font-family: "Glober"; width: 200px; height: 40px; padding-top: 5px;border-top-left-radius: 10px; border-top-right-radius: 10px; background: #A358E4; }
+.title {color:white;  }
+.title:hover {color: #444444}
+.cart img{width: 200px; height: 295px}
+
+@font-face {
+    font-family: "Handelson-FiveCYR";
+    src: url("../fonts/Handelson-FiveCYR.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Handelson-SixCYR";
+    src: url("../fonts/Handelson-SixCYR.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Rosengarten-Sans";
+    src: url("../fonts/Rosengarten-Sans.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Anvyl";
+    src: url("../fonts/ANVYL.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Glober";
+    src: url("../fonts/Glober - SemiBold.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Glober-regular";
+    src: url("../fonts/Glober - Regular.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+
 

@@ -19,8 +19,9 @@
 
         <!-- Фильтрация + сортировка -->
         <ul class="filter-sort">
-            <li class="genres">Жанры
-                <ul class="subgenres">
+            <span class="before"></span>
+            <li class="genres filt">Жанры
+                <ul class="subgenres sub">
                     <li><input type="checkbox" class="boxGenre" id="g0" value=0 />боевик</li>
                     <li><input type="checkbox" class="boxGenre" id="g1" value=1 />комедия</li>
                     <li><input type="checkbox" class="boxGenre" id="g2" value=2 />драма</li>
@@ -33,8 +34,8 @@
                     <li><input type="checkbox" class="boxGenre" id="g9" value=9 />приключение</li>
                 </ul>
             </li>
-            <li class="years">Год
-                <ul class="subyears">
+            <li class="years filt">Год
+                <ul class="subyears sub">
                         <li><input type="text" class="boxYear" id="year1" readonly></li>
                         <li><input type="text" class="boxYear" id="year2" readonly></li>
                         <li><div id="slider-range"></div></li>
@@ -44,8 +45,8 @@
                     -->
                 </ul>
             </li>
-            <li class="countries">Страны
-                <ul class="subcountries">
+            <li class="countries filt">Страны
+                <ul class="subcountries sub">
                     <li><input type="checkbox" class="boxCountry" value="Великобритания" />Великобритания</li>
                     <li><input type="checkbox" class="boxCountry" value="Италия" />Италия</li>
                     <li><input type="checkbox" class="boxCountry" value="Китай" />Китай</li>
@@ -54,15 +55,15 @@
                     <li><input type="checkbox" class="boxCountry" value="Франция" />Франция</li>
                 </ul>
             </li>
-            <li class="sort">Сортировка
-                <ul class="subsort">
+            <li class="sort filt">Сортировка
+                <ul class="subsort sub">
                     <li><input type="radio" class="boxSort" name="boxSort" value="rating" checked />Рейтинг</li>
                     <li><input type="radio" class="boxSort" name="boxSort" value="year" />Дата выхода</li>
                     <li><input type="radio" class="boxSort" name="boxSort" value="views" />Просмотры</li>
-                </ul>
+                </ul>                
             </li>
             <li>
-                <button id="btn-genre"> применить настройки </button>
+                <button id="btn-genre">применить</button>
             </li>
         </ul>
 

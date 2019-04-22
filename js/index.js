@@ -16,7 +16,7 @@ $(function () {
         min: 1950,
         max: 2020,
         values: [1950, 2020],
-        slide: function (event, ui) {
+        slide: function (ui) {
             $("#year1").val(ui.values[0]);
             $("#year2").val(ui.values[1]);
         }

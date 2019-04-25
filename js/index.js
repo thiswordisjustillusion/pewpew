@@ -25,7 +25,7 @@ $(function () {
     $("#year2").val($("#slider-range").slider("values", 1));
 });
 
-//отправка формы и получение готового списка бла бла бла хочу спать
+//отправка формы и получение готового списка
 $("#btn-genre").click(function () {
     //жанры
     let checkedGenre = [];
@@ -49,9 +49,6 @@ $("#btn-genre").click(function () {
     $('.boxYear:text').val(function () {
         checkedYear.push($(this).val())
     });
-    if (checkedYear[1] == 0) {
-        checkedYear[1] = 2050;
-    }
     for (i = 0; i < checkedYear.length; i++) {
         checkedYear[i] = Number(checkedYear[i])
     }
@@ -81,12 +78,12 @@ $("#btn-genre").click(function () {
                 i++;
             })
             $('.films').empty();
-            GetFilterMovie();
+            DisplayFilterMovies();
         }
     })
 });
 
-function GetFilterMovie() {
+function DisplayFilterMovies() {
     let dontViewFilms = allTitleMovie;
     let flag = 0;
     let carts = "";
@@ -107,11 +104,11 @@ function GetFilterMovie() {
 
     $('.films').append(carts);
     $('#films-more').empty();
-    $('#films-more').append('<button onclick="GetFilterMovie()" class="btn-color btn-more">Показать ещё</button>');
+    $('#films-more').append('<button onclick="DisplayFilterMovies()" class="btn-color btn-more">Показать ещё</button>');
 }
 
-
-function GetMovies1() {
+//все фильмы:
+function GetAllMovies() {
     $.ajax({
         url: "/movies",
         type: "GET",
@@ -122,13 +119,13 @@ function GetMovies1() {
                 allViewFilms[index] = movie.title;
             });
             getMovies = movies;
-            GetMovies2();
+            DisplayAllMovies();
         }
     });
 }
 
 // Получение всех фильмов
-function GetMovies2() {
+function DisplayAllMovies() {
     let carts = "";
     let viewFilms = 0;
     let dontViewFilms = allViewFilms;
@@ -148,6 +145,6 @@ function GetMovies2() {
     console.log('dontViewFilms', dontViewFilms)
     $(".films").append(carts);
     $('#films-more').empty();
-    $('#films-more').append('<button onclick="GetMovies2()" class="btn-color btn-more">показать больше</button>');
+    $('#films-more').append('<button onclick="DisplayAllMovies()" class="btn-color btn-more">показать больше</button>');
 }
-GetMovies1()
+GetAllMovies()

@@ -38,7 +38,8 @@ $("#play").click(function () {
 })
 
 //LIKE FILM:
-$("#like").click(function () {
+function ChengeLike () {
+    
     //"вытаскиваем" название фильма, имя пользователя и количество "лайков" фильма
     const title = $("#title_eng").text()
     let like = Number($("#span_like").text());
@@ -82,8 +83,10 @@ $("#like").click(function () {
                 like++;
                 $("#span_like").empty();
                 $("#span_like").append(like)
-                $('#like').removeClass('likeN');
-                $('#like').addClass('likeY');
+                $('#span_like').removeClass('likeN');
+                $('#span_like').addClass('likeY');
+                $(".img-like").remove();
+                $("#div-like").prepend('<img class="img-like" src="/public/img/likeY.png" style="width: 27px; height: 25px;"/>')
             } else {
                 //фильм уже был отмечен пользователем
                 const status = -1;
@@ -101,14 +104,22 @@ $("#like").click(function () {
                 like--;
                 $("#span_like").empty();
                 $("#span_like").append(like)
-                $('#like').toggleClass('likeN');
 
-                $('#like').removeClass('likeY');
-                $('#like').addClass('likeN');
+                $('#span_like').removeClass('likeY');
+                $('#span_like').addClass('likeN');
+                $(".img-like").remove();
+                $("#div-like").prepend('<img class="img-like" src="/public/img/likeN.png" style="width: 27px; height: 25px;"/>')
             }
         }
     })
+}
+$("#span_like").click(function () {
+    ChengeLike();
 });
+$("#div-like").click(function () {
+    ChengeLike();
+});
+
 function CheckLike() {
     const title = $("#title_eng").text()
     let flag = 0;
@@ -129,11 +140,15 @@ function CheckLike() {
                         }
                     }
                     if (flag == 1) {
-                        $('#like').removeClass('likeN');
-                        $('#like').addClass('likeY');
+                        $('#span_like').removeClass('likeN');
+                        $('#span_like').addClass('likeY');
+                        $(".img-like").remove();
+                        $("#div-like").prepend('<img class="img-like" src="/public/img/likeY.png" style="width: 27px; height: 25px;"/>')
                     } else {
-                        $('#like').removeClass('likeY');
-                        $('#like').addClass('likeN');
+                        $('#span_like').removeClass('likeY');
+                        $('#span_like').addClass('likeN');
+                        $(".img-like").remove();
+                        $("#div-like").prepend('<img class="img-like" src="/public/img/likeN.png" style="width: 27px; height: 25px;"/>')
                     }
                 }
             });

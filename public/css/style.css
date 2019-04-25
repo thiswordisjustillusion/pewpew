@@ -19,38 +19,68 @@ ul.menu-main a:hover { color: rgb(255, 151, 65)}
 
 div.content {width: 60%; margin: 60px auto 0 auto; padding-bottom: 60px; background: white;font-family: "Glober"}
 
-#div-title {padding-top: 5px; padding-left: 20px}
-#genre {font-size: 20px; margin-top: -40px; text-align: right; padding-right: 20px;}
+#div-title-genre {
+    padding: 5px 20px 0 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#div-viewgenre {Align-self: flex-end}
+#genre {font-size: 20px;}
 #genreN{font-size: 20px; display: none}
-#title_rus {font-size: 30px;}
+#title_rus {font-size: 30px; font-family: "Glober-bold"}
 #title_eng {font-size: 20px;}
+
 div.content img {width: 100%; cursor: pointer;}
-div.description-text {width: 55%; padding-left: 20px; }
-#like{ 
-    border: none;
-    font-size: 25px; font-family: "Glober";
-    background: #f2e5ff;
-    border-radius: 5px;
-    padding: 4px 25px 2px 25px;
-    cursor: pointer;
-    margin-right: 20%;
-    outline:none
+
+.mainflexbox {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }
-.likeY {color: green}
-.likeN {color: red}
-#views {
-    border: none;
-    font-size: 25px; font-family: "Glober";
-    background: #f2e5ff;
-    border-radius: 5px;
-    padding: 4px 25px 2px 25px;
-    color: black;
-    outline:none
-}
+div.description-text {padding-left: 20px}
 div.description-text .desc {font-size: 22px}
-div.description {width:40%; ; font-size: 20px; margin-top: 50px; padding-right: 20px}
-div.description .leftcol {font-weight: 600; vertical-align: top}
-div.description td {padding-top: 10px}
+div.description {
+    font-size: 20px;
+    white-space: nowrap;
+    padding-top: 45px;
+    padding-right: 20px;
+    padding-left: 10px;
+}
+div.description .leftcol {font-family: "Glober-bold"; vertical-align: top; padding-right: 10px}
+
+.btnflexbox {
+    display: flex;
+    flex-direction: row;
+    Align-items: center;
+    margin-bottom: -10px;
+    margin-top: 5px;
+    padding-right: 20px;
+    /*justify-content: space-between;*/
+}
+#div-like {
+    cursor: pointer;
+}
+#span_like {
+    font-size: 20px;
+    cursor: pointer;
+    padding-left: 5px;
+    Align-self: flex-start;
+    margin-top: 3px;
+}
+
+.likeY {color: rgb(255, 151, 65)}
+.likeN {color: rgb(156, 156, 156)}
+
+#divviews {
+    color: rgb(156, 156, 156);
+    font-size: 20px;
+    /*padding-top: 5px;*/
+    padding-left: 30%;
+    white-space: nowrap;
+}
+
+
 ul.filter-sort {text-align: center; padding-top: 30px; position: relative; font-size: 20px; font-family: "Glober"}
 ul.filter-sort > li {display: inline-block; cursor: default; text-align: left; margin-left: 10px; margin-right: 10px}
 
@@ -117,7 +147,7 @@ ul.filter-sort > li {display: inline-block; cursor: default; text-align: left; m
     position: relative;
     background: black;
     margin-top: -10px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 .img-container img {
     position:absolute;
@@ -177,6 +207,12 @@ ul.filter-sort > li {display: inline-block; cursor: default; text-align: left; m
 @font-face {
     font-family: "Glober-regular";
     src: url("../fonts/Glober - Regular.otf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Glober-bold";
+    src: url("../fonts/Glober - Bold.otf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }

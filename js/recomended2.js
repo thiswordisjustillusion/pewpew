@@ -5,16 +5,7 @@ let genres = [];
 
 //находим нашего юзера и запоминаем его осн. жанры
 function CheckGenre() {
-    //genreI - номера жанров (после сортировки они "слетают", поэтому сохраняем их в отдельный массив)
-    let genreI = [];
-    //genreJ - значения жанров
-
-    let strgenres = "";
     let nGenres = 0;
-    let flag = 0;
-    let userView = [];
-    let max = 0;
-    let nmax = 0;
     $.ajax({
         url: "/users",
         type: "GET",
@@ -42,14 +33,16 @@ function CheckGenre() {
                     }
                     //запись ID жанра
                     genres = Object.keys(genreJ)
+                    console.log('genres', genres, genreJ)
                 }
             });
         }
-    })
+    });
+    GetRecomended()
 }
 //сравниваем жанры пользователя и жанры фильмов из бд 
 //если есть совпадение по трём жанрам, то выводим фильм
-function GetRecomended1() {
+function GetRecomended() {
     $.ajax({
         url: "/movies",
         type: "GET",
@@ -71,12 +64,12 @@ function GetRecomended1() {
                 }
             })
             console.log('likeFilms', likeFilms)
-            GetRecomended2()
+            DisplayRecomended()
         }
     })
 }
 
-function GetRecomended2() {
+function DisplayRecomended() {
     let likeFilms2 = likeFilms;
     console.log('likeFilms2', likeFilms)
     let flag = 0;
@@ -107,10 +100,9 @@ function GetRecomended2() {
             console.log('likeFilms2', likeFilms2)
             $(".films").append(carts);
             $('#films-more').empty();
-            $('#films-more').append('<button onclick="GetRecomended2()" class="btn-color btn-more">Показать ещё</button>');
+            $('#films-more').append('<button onclick="DisplayRecomended()" class="btn-color btn-more">Показать ещё</button>');
         }
     })
 }
 
 CheckGenre();
-GetRecomended1();

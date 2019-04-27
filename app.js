@@ -70,6 +70,9 @@ app.put("/movie-view/:title", jsonParser, function (req, res) {
     const userlogin = req.body.userlogin;
     //фильм: увеличение просмотров на одну единицу:
     db.collection("films").findOneAndUpdate({ "title": title }, { $inc: { "views": 1 } });
+    db.collection("films").findOne({ "title": title }, function (err, movie) {
+        res.send(movie);
+    });
     //пользователь: добавление фильма в просмотренные:
     db.collection("users").findOneAndUpdate({ "login": userlogin }, { $addToSet: { "view": title } });
 })
@@ -95,6 +98,10 @@ app.put("/movie/:title", jsonParser, function (req, res) {
         db.collection("users").findOneAndUpdate({ "login": userlogin }, { $addToSet: { "like": title } });
         //добавление жанров в понравившиеся
         db.collection('users').findOneAndUpdate({ "login": userlogin }, { $inc: { [genreN2[0]]: 1, [genreN2[1]]: 1, [genreN2[2]]: 1 } })
+        //вывод обновлённой информации о фильме
+        db.collection("films").findOne({ "title": title }, function (err, movie) {
+            res.send(movie);
+        });
     } else {
         //удаление лайка фильму
         db.collection("films").findOneAndUpdate({ "title": title }, { $inc: { "like": -1 } });
@@ -102,6 +109,10 @@ app.put("/movie/:title", jsonParser, function (req, res) {
         db.collection("users").findOneAndUpdate({ "login": userlogin }, { $pull: { "like": title } });
         //удаление жанров из понравившихся
         db.collection('users').findOneAndUpdate({ "login": userlogin }, { $inc: { [genreN2[0]]: -1, [genreN2[1]]: -1, [genreN2[2]]: -1 } })
+        //вывод обновлённой информации о фильме
+        db.collection("films").findOne({ "title": title }, function (err, movie) {
+            res.send(movie);
+        });
     }
 
 
@@ -116,8 +127,9 @@ app.put("/movie/:title", jsonParser, function (req, res) {
         //изменение user.genrep
         db.collection('users').findOneAndUpdate({ "login": userlogin }, {
             $set: {
-                "genrep.0": newGenreP[0], "genrep.1": newGenreP[1], "genrep.2": newGenreP[2], "genrep.3": newGenreP[3],
-                "genrep.4": newGenreP[4], "genrep.5": newGenreP[5], "genrep.6": newGenreP[6], "genrep.7": newGenreP[7], "genrep.8": newGenreP[8], "genrep.9": newGenreP[9]
+                "genrep.0": newGenreP[0], "genrep.1": newGenreP[1], "genrep.2": newGenreP[2], 
+                "genrep.3": newGenreP[3], "genrep.4": newGenreP[4], "genrep.5": newGenreP[5], 
+                "genrep.6": newGenreP[6], "genrep.7": newGenreP[7], "genrep.8": newGenreP[8], "genrep.9": newGenreP[9]
             }
         })
         sum = 0;

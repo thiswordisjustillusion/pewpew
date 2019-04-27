@@ -1,10 +1,7 @@
 const userlogin = "PewpoMan";
-CheckLike();
 //VIEW FILM:
 $("#play").click(function () {
     const title = $("#title_eng").text();
-    let view = Number($("#span_view").text());
-    console.log(view)
     $.ajax({
         url: "/users",
         type: "GET",
@@ -20,6 +17,7 @@ $("#play").click(function () {
                         }
             })
             if (flag == 0) {
+                let view = 0;
                 $.ajax({
                     url: "/movie-view/:title",
                     contentType: "application/json",
@@ -27,22 +25,23 @@ $("#play").click(function () {
                     data: JSON.stringify({
                         title: title,
                         userlogin: userlogin
-                    })
+                    }),
+                    success: function (movie) {
+                        view = movie.views;
+                        $("#span_view").empty();
+                        $("#span_view").append(view)
+                    }
                 })
-                view++;
-                $("#span_view").empty();
-                $("#span_view").append(view)
             }
         }
     })
 })
 
 //LIKE FILM:
-function ChengeLike () {
-    
+function ChengeLike() {
     //"вытаскиваем" название фильма, имя пользователя и количество "лайков" фильма
     const title = $("#title_eng").text()
-    let like = Number($("#span_like").text());
+    //let like = Number($("#span_like").text());
     genreN[0] = Number($("#genreN0").text());
     genreN[1] = Number($("#genreN1").text());
     genreN[2] = Number($("#genreN2").text());
@@ -78,15 +77,16 @@ function ChengeLike () {
                         userlogin: userlogin,
                         genreN: genreN,
                         status: status
-                    })
+                    }),
+                    success: function (movie) {
+                        $("#span_like").empty();
+                        $("#span_like").append(movie.like)
+                        $('#span_like').removeClass('likeN');
+                        $('#span_like').addClass('likeY');
+                        $(".img-like").remove();
+                        $("#div-like").prepend('<img class="img-like" src="/public/img/likeY.png" style="width: 27px; height: 25px;"/>')
+                    }
                 });
-                like++;
-                $("#span_like").empty();
-                $("#span_like").append(like)
-                $('#span_like').removeClass('likeN');
-                $('#span_like').addClass('likeY');
-                $(".img-like").remove();
-                $("#div-like").prepend('<img class="img-like" src="/public/img/likeY.png" style="width: 27px; height: 25px;"/>')
             } else {
                 //фильм уже был отмечен пользователем
                 const status = -1;
@@ -99,16 +99,16 @@ function ChengeLike () {
                         title: title,
                         userlogin: userlogin,
                         genreN: genreN
-                    })
+                    }),
+                    success: function (movie) {
+                        $("#span_like").empty();
+                        $("#span_like").append(movie.like)
+                        $('#span_like').removeClass('likeY');
+                        $('#span_like').addClass('likeN');
+                        $(".img-like").remove();
+                        $("#div-like").prepend('<img class="img-like" src="/public/img/likeN.png" style="width: 27px; height: 25px;"/>')
+                    }
                 });
-                like--;
-                $("#span_like").empty();
-                $("#span_like").append(like)
-
-                $('#span_like').removeClass('likeY');
-                $('#span_like').addClass('likeN');
-                $(".img-like").remove();
-                $("#div-like").prepend('<img class="img-like" src="/public/img/likeN.png" style="width: 27px; height: 25px;"/>')
             }
         }
     })
@@ -154,6 +154,8 @@ function CheckLike() {
             });
         }
     })
-}
+};
+
+CheckLike();
 
 

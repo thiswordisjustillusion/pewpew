@@ -32,8 +32,13 @@
 
         <div class="img-container" id="play">
         </div>
-
-
+        <span style="display:none" id="span-img-play"><%= movie.img_play%></span>
+        <script>
+            //вставляем картинку в плеер
+            const imgPlay = $("#span-img-play").text()
+            $(".img-container").append('<img src="/public/img/play/' + imgPlay + '" class="img-play-film" style="width: 100%" />');
+            $(".img-container").append('<img src="/public/img/play/play2.png" style="height: 250px; width: 250px" />');
+        </script>
 
         <div class="mainflexbox">
             <div class="description-text">
@@ -92,15 +97,8 @@
     <% include blocks/footer.ejs %>
     <p id="genreN"><span id="genreN0"><%= movie.genreN[0] %></span>, <span id="genreN1"><%= movie.genreN[1] %></span>,
         <span id="genreN2"><%= movie.genreN[2] %></span></p>
-    <span style="display:none" id="span-img-play"><%= movie.img_play%></span>
     <script src="/js/movie.js"></script>
     <script src="/js/script.js"></script>
-    <script>
-        //вставляем картинку в плеер
-        const imgPlay = $("#span-img-play").text()
-        $(".img-container").append('<img src="/public/img/play/' + imgPlay + '" class="img-play-film" style="width: 100%" />');
-        $(".img-container").append('<img src="/public/img/play/play2.png" style="height: 250px; width: 250px" />');
-    </script>
 </body>
 
 </html>

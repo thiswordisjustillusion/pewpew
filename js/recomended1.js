@@ -22,7 +22,8 @@ function CheckGenre() {
                 }
             })
         }
-    })
+    });
+    SortUsers();
 }
 
 
@@ -34,12 +35,11 @@ function SortUsers() {
         contentType: "application/json",
         success: function (users) {
             let min = 100.0;
-            //сколько пользователей записываем как "ахуенных"?
+            //сколько пользователей записываем как "лучших"?
             //з.ы.: это не прям так критично, т.к. повторения будут удаляться
             //но нижняя граница важна!
             //наверное... ну фильмов 30 было бы неплохо закинуть в "поток"
-            //лол, поток хд
-            while (betterUsers.length < 100) {
+            while (betterUsers.length < 10) {
                 min = 110;
                 $.each(users, function (index, user) {
                     let sumOtklon = 0;
@@ -63,20 +63,21 @@ function SortUsers() {
                     }
                 })
                 betterUsers[betterUsers.length] = namemin;
-                //console.log('bUs',betterUsers)
             }
         }
     });
+    GetLikeMovies ();
 }
 
 //https://medium.com/@frontman/%D0%B4%D0%B5%D0%B4%D1%83%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F-%D0%B8-%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5-%D0%BC%D0%B0%D1%81%D1%81%D0%B8%D0%B2%D0%BE%D0%B2-c2706948c200
 //получение названий фильмов в массив
-function GetLikeMovies1() {
+function GetLikeMovies() {
     $.ajax({
         url: "/users",
         type: "GET",
         contentType: "application/json",
         success: function (users) {
+            //console.log('bUs3',betterUsers)
             while (betterUsers.length > 0) {
                 $.each(users, function (index, user) {
                     if (user.login == betterUsers[0]) {
@@ -99,13 +100,13 @@ function GetLikeMovies1() {
                 betterUsers.splice(0, 1);
             }
             console.log('likeFilms', likeFilms)
-            GetRecomended();
+            DisplayRecomended();
         }
     })
 }
 
 //вывод ВСЕХ рекомендуемых
-function GetRecomended() {
+function DisplayRecomended() {
     let dontViewFilms = likeFilms;
     let flag = 0;
     $.ajax({
@@ -134,10 +135,10 @@ function GetRecomended() {
             console.log('dontViewFilms', dontViewFilms)
             $(".films").append(carts);
             $('#films-more').empty();
-            $('#films-more').append('<button onclick="GetRecomended()" class="btn-color btn-more">Показать ещё</button>');
+            $('#films-more').append('<button onclick="DisplayRecomended()" class="btn-color btn-more">Показать ещё</button>');
         }
     })
 }
-CheckGenre();
+CheckGenre();/*
 SortUsers();
-GetLikeMovies1();
+GetLikeMovies();*/

@@ -1,5 +1,7 @@
 const express = require("express");
 const MongoClient = require("mongodb").MongoClient;
+//защита от инъекций в запросах
+const filter = require('content-filter')
 
 const app = express();
 const jsonParser = express.json();
@@ -9,6 +11,8 @@ const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlPar
 let dbClient;
 
 app.set('view engine', 'ejs');
+//защита от инъекций в запросах
+app.use(filter());
 //https://www.youtube.com/watch?v=oHVfnRIx9Us&list=PL0lO_mIqDDFX0qH9w5YQIDV6Wxy0oawet&index=15
 app.use('/public', express.static('public'))
 app.use('/js', express.static('js'))

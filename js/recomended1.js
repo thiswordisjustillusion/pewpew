@@ -1,6 +1,5 @@
 /////ВЫВОД ФИЛЬМОВ НЕ В ПОРЯДКЕ ВОЗРАСТАНИЯ РЕЙТИНГА, А СООТВЕТСТВИЯ ЮЗЕРАМ
 let likeFilms = [];
-let username = "PewpoMan";
 let genreJ = [];
 let userView = [];
 let betterUsers = [];
@@ -13,7 +12,7 @@ function CheckGenre() {
         success: function (users) {
             $.each(users, function (index, user) {
                 //находим запись о текущем пользователе
-                if (user.login == username) {
+                if (user.login == $("#login").text()) {
                     //сохраняем просмотренные фильмы пользователя
                     userView = user.view;
                     for (i = 0; i < 10; i++) 
@@ -39,7 +38,7 @@ function SortUsers() {
             //з.ы.: это не прям так критично, т.к. повторения будут удаляться
             //но нижняя граница важна!
             //наверное... ну фильмов 30 было бы неплохо закинуть в "поток"
-            while (betterUsers.length < 10) {
+            while (betterUsers.length < 100) {
                 min = 110;
                 $.each(users, function (index, user) {
                     let sumOtklon = 0;
@@ -52,7 +51,7 @@ function SortUsers() {
                         }
                     
 
-                    if (!(user.login == username) && (flag == 0)) {
+                    if (!(user.login == $("#login").text()) && (flag == 0)) {
                         for (i = 0; i < 10; i++) 
                             if (user.genrep[i] - genreJ[i]) 
                                 sumOtklon += Math.abs(user.genrep[i] - genreJ[i]);
@@ -92,11 +91,11 @@ function GetLikeMovies() {
                             }
                         }
                         for (i = 0; i < user.like.length; i++) {
-                            likeFilms = Array.from(new Set(likeFilms.concat(user.like[i])))
+                            if (likeFilms.length < 50) likeFilms = Array.from(new Set(likeFilms.concat(user.like[i])))
                         }
-
                     };
                 });
+                if (likeFilms.length == 50) break;
                 betterUsers.splice(0, 1);
             }
             console.log('likeFilms', likeFilms)
@@ -120,7 +119,7 @@ function DisplayRecomended() {
             //в dontViewFilms хранятся не выведенные фильмы
             //таким образом, можно написать скрипт, который будет 
             //"довыводить" фильмы по запросу пользователя
-            while ((dontViewFilms.length > 0) && (viewFilms < 5)) {
+            while ((dontViewFilms.length > 0) && (viewFilms < 10)) {
                 flag = 0;
                 $.each(movies, function (index, movie) {
                     if (dontViewFilms[0] == movie.title) {

@@ -1,7 +1,13 @@
 const express = require("express");
+//подключение к монго
 const MongoClient = require("mongodb").MongoClient;
 //защита от инъекций в запросах
 const filter = require('content-filter')
+//шифрование
+const bcrypt = require('bcrypt-nodejs')
+//работа с сессиями
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 const app = express();
 const jsonParser = express.json();
@@ -9,6 +15,18 @@ const jsonParser = express.json();
 const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
 
 let dbClient;
+
+//сессии
+app.use(
+    session({
+        secret: 'keyboard cat',
+        resave: true,
+        saveUninitialized: true,
+        store: new MongoStore({
+            url: 'mongodb://localhost:27017/PewpoDB'
+        })
+    })
+)
 
 app.set('view engine', 'ejs');
 //защита от инъекций в запросах
@@ -18,19 +36,26 @@ app.use('/public', express.static('public'))
 app.use('/js', express.static('js'))
 //https://www.youtube.com/watch?v=FUf8a47ZT9Q&list=PL0lO_mIqDDFX0qH9w5YQIDV6Wxy0oawet&index=15&t=2s
 app.get('/', function (req, res) {
-    res.render('index');
+    const login = req.session.userLogin;
+    res.render('index', { login });
 })
 
 app.get('/recomended1', function (req, res) {
-    res.render('recomended1');
+    const login = req.session.userLogin;
+    res.render('recomended1', { login });
 })
 app.get('/recomended2', function (req, res) {
-    res.render('recomended2');
+    const login = req.session.userLogin;
+    res.render('recomended2', { login });
+})
+app.get('/register', function (req, res) {
+    res.render('register');
 })
 app.get('/movie/:title', function (req, res) {
     const db = req.app.locals.db;
+    const login = req.session.userLogin;
     db.collection("films").findOne({ "title": req.params.title }, function (err, movie) {
-        res.render('movie', { movie: movie });
+        res.render('movie', { movie, login });
     });
 })
 
@@ -65,6 +90,7 @@ app.get("/users", function (req, res) {
         res.send(users)
     });
 });
+
 app.put("/movie-view/:title", jsonParser, function (req, res) {
 
     if (!req.body) return res.sendStatus(400);
@@ -131,8 +157,8 @@ app.put("/movie/:title", jsonParser, function (req, res) {
         //изменение user.genrep
         db.collection('users').findOneAndUpdate({ "login": userlogin }, {
             $set: {
-                "genrep.0": newGenreP[0], "genrep.1": newGenreP[1], "genrep.2": newGenreP[2], 
-                "genrep.3": newGenreP[3], "genrep.4": newGenreP[4], "genrep.5": newGenreP[5], 
+                "genrep.0": newGenreP[0], "genrep.1": newGenreP[1], "genrep.2": newGenreP[2],
+                "genrep.3": newGenreP[3], "genrep.4": newGenreP[4], "genrep.5": newGenreP[5],
                 "genrep.6": newGenreP[6], "genrep.7": newGenreP[7], "genrep.8": newGenreP[8], "genrep.9": newGenreP[9]
             }
         })
@@ -140,6 +166,99 @@ app.put("/movie/:title", jsonParser, function (req, res) {
     });
 
 });
+
+app.post("/register", jsonParser, function (req, res) {
+    if (!req.body) return res.sendStatus(400);
+    const db = req.app.locals.db;
+    const userLogin = req.body.login;
+    let userPassword = req.body.password;
+    const userPassword2 = req.body.password2;
+
+    if (!userLogin || !userPassword) {
+        //console.log('!error')
+        let registerCompleted = false;
+        let registerError = 'Необходимо заполнить все поля'
+        result = { registerCompleted, registerError }
+        res.send(result)
+    } else {
+        if (userPassword == userPassword2) {
+            const findUser = { login: userLogin };
+
+            db.collection("users").findOne(findUser, function (err, find) {
+                if (!find) {
+                    console.log(userLogin, userPassword)
+                    bcrypt.hash(userPassword, null, null, function (err, hash) {
+                        userPassword = hash;
+
+                        const newUser = { login: userLogin, password: userPassword, genre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], genrep: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], view: [], like: [] }
+
+                        db.collection("users").insertOne(newUser, function (err, resultInsert) {
+                            if (err) return console.log(err);
+
+                            let registerCompleted = true;
+                            req.session.userLogin = newUser.login;
+                            result = { registerCompleted }
+                            res.send(result)
+                        })
+                    })
+                } else {
+                    let registerCompleted = false;
+                    let registerError = 'Пользователь с таким логином уже зарегистрирован'
+                    result = { registerCompleted, registerError }
+                    res.send(result)
+
+                }
+            });
+        } else {
+            //console.log('несовпадение паролей')
+            let registerCompleted = false;
+            let registerError = 'Пароли не совпадают'
+            result = { registerCompleted, registerError }
+            res.send(result)
+        }
+    }
+})
+
+app.post("/login", jsonParser, function (req, res) {
+    if (!req.body) return res.sendStatus(400);
+    const db = req.app.locals.db;
+
+    const userLogin = req.body.login;
+    let userPassword = req.body.password;
+    if (!userLogin || !userPassword) {
+        console.log('Необходимо заполнить все поля')
+        let loginCompleted = false;
+        let loginError = 'Необходимо заполнить все поля'
+        result = { loginCompleted, loginError }
+        res.send(result);
+    } else {
+        console.log('вход по:', userLogin, userPassword)
+        let newUser = { login: userLogin }
+        db.collection("users").findOne(newUser, function (err, find) {
+            if (find) {
+                bcrypt.compare(userPassword, find.password, function (err, findHash) {
+                    if (findHash) {
+                        console.log('Авторизация успешна!')
+                        req.session.userLogin = find.login;
+                        let loginCompleted = true;
+                        result = { loginCompleted };
+                        res.send(result)
+                    } else {
+                        let loginCompleted = false;
+                        let loginError = 'Логин или пароль не совпадают'
+                        result = { loginCompleted, loginError }
+                        res.send(result)
+                    }
+                })
+            } else {
+                let loginCompleted = false;
+                let loginError = 'Логин или пароль не совпадают'
+                result = { loginCompleted, loginError }
+                res.send(result)
+            }
+        })
+    }
+})
 
 app.post("/search", jsonParser, function (req, res) {
 
@@ -162,17 +281,17 @@ app.post("/search", jsonParser, function (req, res) {
             for (j = 0; j < search[i].actors.length; j++) newActors.push(search[i].actors[j].toLowerCase().replace(/[\/\\#&,+()$~%. '":*?<—>{}\-_=\[\]]/g, "").concat('1'));
 
             //поиск подстроки letSearch
-            if ((newTitle.search(letSearch) != -1 ) || (newTitleRus.search(letSearch) != -1)) {
+            if ((newTitle.search(letSearch) != -1) || (newTitleRus.search(letSearch) != -1)) {
                 sumSearch.push(search[i]);
                 flag = 1;
             }
-            if (flag == 0) for (j=0; j<newProducer.length; j++) 
-                if (newProducer[j].search(letSearch) != -1 ) {
+            if (flag == 0) for (j = 0; j < newProducer.length; j++)
+                if (newProducer[j].search(letSearch) != -1) {
                     sumSearch.push(search[i]);
                     flag = 1;
                 }
-            if (flag == 0) for (j=0; j<newActors.length; j++) 
-                if (newActors[j].search(letSearch) != -1 ) {
+            if (flag == 0) for (j = 0; j < newActors.length; j++)
+                if (newActors[j].search(letSearch) != -1) {
                     sumSearch.push(search[i]);
                     flag = 1;
                 }
@@ -187,13 +306,12 @@ app.post("/movies", jsonParser, function (req, res) {
     if (!req.body) return res.sendStatus(400);
 
     const checkedGenre = req.body.genreM;
-    const checkedYear1 = req.body.yearM[0];
-    const checkedYear2 = req.body.yearM[1];
+    let checkedYear1 = req.body.yearM[0];
+    let checkedYear2 = req.body.yearM[1];
     const checkedSort = req.body.sortM;
     const checkedCountry = req.body.countryM;
 
     const db = req.app.locals.db;
-
     //проверка на жанры
     if (!(checkedGenre.length == 0)) {
         db.collection("films").find({ "genreN": { $all: checkedGenre }, "year": { $gte: checkedYear1, $lte: checkedYear2 }, "country": { $in: checkedCountry } }).sort({ [checkedSort]: -1 }).toArray(function (err, movies) {
@@ -208,6 +326,11 @@ app.post("/movies", jsonParser, function (req, res) {
     }
 
 });
+
+//выход из аккаунта
+app.post("/logout", function(req,res){
+    if (req.session) req.session.destroy()
+})
 
 // прослушиваем прерывание работы программы (ctrl-c)
 process.on("SIGINT", () => {

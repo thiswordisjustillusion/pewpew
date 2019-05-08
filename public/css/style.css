@@ -1,15 +1,18 @@
-body {margin: 0; padding: 0; background: #f2e5ff}
+body {margin: 0; padding: 0; background: #fdfcff}
 ul {list-style: none; margin: 0; padding-left: 0}
 a {text-decoration: none; color: black}
 a:hover {color: rgb(255, 127, 22)}
 
-nav {height: 60px; background: #491277; color: white; font-family: "Anvyl"; position: fixed; top: 0; left: 0; width: 100%; z-index: 999;}
+#top-header {position: fixed; top: 0; left: 0; width: 100%; z-index: 99; background: #37124d; text-align: right}
+#top-header span {cursor: pointer; font-family: "Glober-bold"; color: white; font-size: 14px; padding-right: 20%}
+nav {position: fixed; top: 20px; height: 50px; background: #430f66; color: white; font-family: "Anvyl"; position: fixed; width: 100%; z-index: 98;}
 footer { background: #491277; color: white; font-family: "Anvyl";  font-size: 35px; padding: 15px; padding-left: 20%; margin:0; bottom: 0}
 
-ul.menu-main {text-align: center; font-size: 35px; ;padding-top: 10px;  position: relative;}
+ul.menu-main {font-size: 35px; display: flex; justify-content: space-between; align-items: center;padding-left: 20%; padding-right: 20%;}
 ul.menu-main > li {display: inline-block; }
-#main-li {padding-right: 9%}
-#recomended-li {padding-left: 9%}
+#main-li {}
+#recomended-li {}
+#auth-li {}
 #recomended-ul {display: none; background: #491277; position: absolute; text-align: left; width: 410px; padding: 17px 0 10px 11px; margin-left: -10px; z-index: 999999;}
 #recomended-li:hover #recomended-ul {display: block;}
 ul.menu-main a { color: white;}
@@ -17,7 +20,7 @@ ul.menu-main a:hover { color: rgb(255, 151, 65)}
 
 #h1-recomended {font-family: "Anvyl"; margin: 0 40px; padding-top: 15px; font-size: 32px}
 
-div.content {width: 60%; margin: 60px auto 0 auto; padding-bottom: 60px; background: white;font-family: "Glober"}
+div.content {width: 60%; margin: 70px auto 0 auto; padding-bottom: 60px; background: white;font-family: "Glober"}
 
 #div-title-genre {
     padding: 5px 20px 0 20px;
@@ -84,9 +87,9 @@ div.description .leftcol {font-family: "Glober-bold"; vertical-align: top; paddi
 ul.filter-sort {text-align: center; padding-top: 30px; position: relative; font-size: 20px; font-family: "Glober"}
 ul.filter-sort > li {display: inline-block; cursor: default; text-align: left; margin-left: 10px; margin-right: 10px}
 
-#search-li {position: relative; top: -8px; display: inline-table}
-#IDsearch {margin: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border: none; height: 28px; width: 285px; padding-left: 10px; font-family: "Glober"} 
-#btn-search {background: #f2e5ff; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border: none; height: 30px; width: 80px; font-family: "Glober"; font-size: 18px}
+#search-li {position: relative; top: -3px; display: inline-table}
+#IDsearch {margin: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border: none; height: 28px; width: 320px; padding-left: 10px; font-family: "Glober"} 
+#btn-search {background: #e8d4fc; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border: none; height: 30px; width: 100px; font-family: "Glober"; font-size: 18px}
 #btn-search:focus {
     background: rgb(255, 151, 65);
     outline:none
@@ -118,7 +121,7 @@ ul.filter-sort > li {display: inline-block; cursor: default; text-align: left; m
 .btn-color {
     border: none;
     font-size: 18px; font-family: "Glober";
-    background: #f2e5ff;
+    background: #e8d4fc;
     border-radius: 5px;
     padding: 4px 25px 2px 25px;
     cursor: pointer;
@@ -168,12 +171,6 @@ ul.filter-sort > li {display: inline-block; cursor: default; text-align: left; m
     background-color:#000;
 }
 
-
-
-    
-
-
-
 @font-face {
     font-family: "Handelson-FiveCYR";
     src: url("../fonts/Handelson-FiveCYR.otf") format("truetype");
@@ -217,5 +214,79 @@ ul.filter-sort > li {display: inline-block; cursor: default; text-align: left; m
     font-weight: normal;
 }
 
-
+.auth-register {
+    display: none;
+    background-color: #fdfcff;
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    border-radius: 15px;
+    font-family: "Glober-bold";
+    z-index:999;
+}
+.auth-register input{
+    margin-bottom: 5px;
+    height: 25px;
+    font-family: "Glober";
+    font-size: 16px;
+}
+.auth-register h3 {
+    margin-left: 10px;
+    font-size: 22px;
+}
+#auth {
+    margin: 20px 20px 20px 45px;
+}
+#center-line {
+    width: 20px;
+}
+#register {
+    margin: 20px 45px 20px 20px;
+}
+#x {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 20px;
+    font-family: "Glober-bold";
+}
+.report {
+    font-family: "Glober";
+    font-size: 15px;
+}
+.report-reg-err {
+    color: #750000;
+}
+.report-log-err {
+    color: #750000;
+}
+.report-reg {
+    color: #37124d;
+}
+.report-log {
+    color: #37124d;
+}
+#overlay{
+    display: none;
+    position: absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    width:100%;
+    height:100%;
+    z-index:998;
+    background-color: rgba(0, 0, 0, 0.363);
+}
+.auth-reg-but {
+    margin-top: 8px; margin-left: 10px; 
+    border: none;
+    font-size: 18px; font-family: "Glober";
+    background: #e8d4fc;
+    border-radius: 5px;
+    padding: 4px 25px 2px 25px;
+    cursor: pointer;
+    color: black;
+}
 

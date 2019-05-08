@@ -10,12 +10,13 @@ $('.boxGenre:checkbox').click(function () {
 })
 
 //горизонтальный слайдер boxYear
-$(function () {
+function YearSlider (minY, maxY) {
+    $(function () {
     $("#slider-range").slider({
         range: true,
-        min: 1950,
-        max: 2020,
-        values: [1950, 2020],
+        min: 1950, //1950
+        max: 2020, //2020
+        values: [minY, maxY],
         slide: function (event, ui) {
             $("#year1").val(ui.values[0]);
             $("#year2").val(ui.values[1]);
@@ -24,11 +25,15 @@ $(function () {
     $("#year1").val($("#slider-range").slider("values", 0));
     $("#year2").val($("#slider-range").slider("values", 1));
 });
+}
 
 //отправка формы и получение готового списка
 $("#btn-genre").click(function () {
-    //жанры
     let checkedGenre = [];
+    let checkedCountry = [];
+    let checkedYear = [];
+    let checkedSort = "";
+    //жанры
     $('.boxGenre:checkbox:checked').each(function () {
         checkedGenre.push($(this).val())
     });
@@ -36,7 +41,6 @@ $("#btn-genre").click(function () {
         checkedGenre[i] = Number(checkedGenre[i])
     }
     //страны
-    let checkedCountry = [];
     $('.boxCountry:checkbox:checked').each(function () {
         checkedCountry.push($(this).val())
     });
@@ -45,18 +49,14 @@ $("#btn-genre").click(function () {
             checkedCountry.push($(this).val())
         }); 
     //года
-    let checkedYear = [];
     $('.boxYear:text').val(function () {
         checkedYear.push($(this).val())
     });
     for (i = 0; i < checkedYear.length; i++) {
         checkedYear[i] = Number(checkedYear[i])
     }
-    
     //сортировка
-    let checkedSort = "";
     checkedSort = $('.boxSort:radio:checked').val();
-
     console.log('Выбрано:', checkedGenre, checkedYear, checkedCountry, checkedSort)
     $.ajax({
         url: "/movies",
@@ -69,6 +69,7 @@ $("#btn-genre").click(function () {
             countryM: checkedCountry
         }),
         success: function (movies) {
+            allTitleMovie.length = 0;
             findMovies = movies;
             console.log('findMovies', findMovies);
             //получение названий фильмов в массив allTitleMovie
@@ -81,6 +82,8 @@ $("#btn-genre").click(function () {
             DisplayFilterMovies();
         }
     })
+    YearSlider (checkedYear[0], checkedYear[1]);
+    checkedGenre.length = 0;
 });
 
 function DisplayFilterMovies() {
@@ -104,11 +107,12 @@ function DisplayFilterMovies() {
 
     $('.films').append(carts);
     $('#films-more').empty();
-    $('#films-more').append('<button onclick="DisplayFilterMovies()" class="btn-color btn-more">Показать ещё</button>');
+    $('#films-more').append('<button onclick="DisplayFilterMovies()" class="btn-color btn-more">Показать больше</button>');
 }
 
 //все фильмы:
 function GetAllMovies() {
+    allViewFilms.length = 0;
     $.ajax({
         url: "/movies",
         type: "GET",
@@ -145,6 +149,7 @@ function DisplayAllMovies() {
     console.log('dontViewFilms', dontViewFilms)
     $(".films").append(carts);
     $('#films-more').empty();
-    $('#films-more').append('<button onclick="DisplayAllMovies()" class="btn-color btn-more">показать больше</button>');
+    $('#films-more').append('<button onclick="DisplayAllMovies()" class="btn-color btn-more">Показать больше</button>');
 }
+YearSlider (1950, 2020)
 GetAllMovies()

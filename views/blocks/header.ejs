@@ -1,3 +1,13 @@
+<div id="top-header">
+        <a href="javascript:PopUpShow()"><span id="auth-reg"></span></a>
+    
+</div>
+<span id="login" style="display: none"><%= login %></span>
+<script>
+    if ($("#login").text()) $('#top-header').append('<a href="javascript:Quit()"><span id="auth-reg">'+ $("#login").text() + ' : выход</span></a>') 
+    else $('#top-header').append('<a href="javascript:PopUpShow()"><span id="auth-reg">Вход/Регистрация</span></a>') 
+</script>
+
 <nav>
     <ul class="menu-main">
         <li id="main-li"><a href="/">На главную</a></li>
@@ -5,7 +15,7 @@
             <input type="text" id="IDsearch" placeholder="фильм, актёр, режиссёр" />
             <button id="btn-search">поиск</button>
         </li>
-        <li id="recomended-li"><a style="cursor: pointer">Рекомендации</a> 
+        <li id="recomended-li"><a style="cursor: pointer">Рекомендации</a>
             <ul id="recomended-ul">
                 <li><a href="/recomended1">Рекомендации пользователей</a></li>
                 <li><a href="/recomended2">Рекомендации редакции</a></li>
@@ -13,3 +23,44 @@
         </li>
     </ul>
 </nav>
+<div class="auth-register">
+    <a id="x" href="javascript:PopUpHide()">X</a>
+    <div id="auth">
+        <ul>
+            <li>
+                <h3>Вход</h3>
+            </li>
+            <form>
+                <p class="report report-log"></p>
+                <p class="report report-log-err"></p>
+                <li><input type="text" id="login-login" name="login" placeholder="login" /></li>
+                <li><input type="password" id="login-password" name="login-password" placeholder="password" /></li>
+                <!--<div class="g-recaptcha" data-sitekey="6LcvVKIUAAAAAJiqhQg9T4w4S1CBBf2KHqBM8rOI"></div>-->
+                <li><input type="submit" class="auth-reg-but login-button" value="Вход">
+                </li>
+                <!--<li><button class="login-button">Вход</button></li>-->
+            </form>
+        </ul>
+    </div>
+    <div id="center-line"></div>
+    <div id="register">
+        <ul>
+            <li>
+                <h3>Регистрация</h3>
+            </li>
+            <form>
+                <p class="report report-reg"></p>
+                <p class="report report-reg-err"></p>
+                <li><input type="text" id="register-login" name="login" placeholder="login" /></li>
+                <li><input type="password" id="register-password" name="password" placeholder="password" /></li>
+                <li><input type="password" id="register-password2" name="password2" placeholder="confirm password" />
+                </li>
+                <li><input type="submit" class="auth-reg-but register-button" value="Регистрация"></li>
+                <!--<li><button class="register-button">Регистрация</button></li>-->
+            </form>
+        </ul>
+    </div>
+</div>
+<div id="overlay"></div>
+<script src="/js/auth.js"></script>
+<script src="/js/register.js"></script>

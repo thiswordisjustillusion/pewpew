@@ -1,4 +1,4 @@
-const userlogin = "PewpoMan";
+const userlogin = $("#login").text();
 //VIEW FILM:
 $("#play").click(function () {
     const title = $("#title_eng").text();

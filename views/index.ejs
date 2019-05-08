@@ -17,6 +17,9 @@
     <!-- Контент -->
     <div class="content">
 
+            
+        
+
         <!-- Фильтрация + сортировка -->
         <ul class="filter-sort">
             <li class="genres filt">Жанры
@@ -35,9 +38,11 @@
             </li>
             <li class="years filt">Год
                 <ul class="subyears sub">
-                        <li><input type="text" class="boxYear" id="year1" readonly></li>
-                        <li><input type="text" class="boxYear" id="year2" readonly></li>
-                        <li><div id="slider-range"></div></li>
+                    <li><input type="text" class="boxYear" id="year1" readonly></li>
+                    <li><input type="text" class="boxYear" id="year2" readonly></li>
+                    <li>
+                        <div id="slider-range"></div>
+                    </li>
                 </ul>
             </li>
             <li class="countries filt">Страны
@@ -55,7 +60,7 @@
                     <li><input type="radio" class="boxSort" name="boxSort" value="rating" checked />Рейтинг</li>
                     <li><input type="radio" class="boxSort" name="boxSort" value="year" />Дата выхода</li>
                     <li><input type="radio" class="boxSort" name="boxSort" value="views" />Просмотры</li>
-                </ul>                
+                </ul>
             </li>
             <li>
                 <button id="btn-genre" class="btn-color">применить</button>

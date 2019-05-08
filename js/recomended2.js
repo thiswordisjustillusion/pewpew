@@ -1,4 +1,3 @@
-let username = "PewpoMan";
 let likeFilms = [];
 let genreJ = [];
 let genres = [];
@@ -16,7 +15,7 @@ function CheckGenre() {
             $.each(users, function (index, user) {
                 nGenres = 0;
                 //нахождение текущего пользователя
-                if (user.login == username) {
+                if (user.login == $("#login").text()) {
                 //нахождение 4х жанров с максимальным значением
                     while (nGenres < 4) {
                         max = 0;

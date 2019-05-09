@@ -26,6 +26,7 @@ function PopUpHide(){
     let arr2 = $("input[type = 'password']"); for (i in arr2 ) { arr2[i].value="" }
 }
 
+
 function Quit(){
     //удаление сессии
     $.ajax({

@@ -218,7 +218,7 @@ ul.filter-sort > li {display: inline-block; cursor: default; text-align: left; m
     display: none;
     background-color: #fdfcff;
     width: 500px;
-    display: flex;
+    /*display: flex;*/
     justify-content: space-between;
     position: absolute;
     border-radius: 15px;

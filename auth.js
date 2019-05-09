@@ -15,7 +15,7 @@ $('.register-button').on('click', function (e) {
         method: "POST",
         data: JSON.stringify(data),
         success: function (result) {
-            if (result.registerCompleted) {
+            if (result.registerCompvared) {
                 $('.report-reg').empty();
                 $('.report-reg-err').empty();
                 $('.report-reg').append('Регистрация успешна!')
@@ -46,7 +46,7 @@ $('.login-button').on('click', function (e) {
         method: "POST",
         data: JSON.stringify(data),
         success: function (result) {
-            if (result.loginCompleted) {
+            if (result.loginCompvared) {
                 $('.report-log').empty();
                 $('.report-log-err').empty();
                 $('.report-log').append('Авторизация успешна!')

@@ -9,19 +9,21 @@ let username = $("#login").text();
 
 $(".auth-register").center();
 
-$(document).ready(function(){
-    //Скрыть PopUp при загрузке страницы    
-    PopUpHide();
-});
-
 function PopUpShow(){
     $("#overlay").show();
     $(".auth-register").show();
+    $("body").css("overflow", "hidden")
+    $(".auth-register").css("display", "flex")
+    let arr = $("input[type = 'text']"); for (i in arr ) { arr[i].value="" }
+    let arr2 = $("input[type = 'password']"); for (i in arr2 ) { arr2[i].value="" }
 }
 
 function PopUpHide(){
     $("#overlay").hide();
     $(".auth-register").hide();
+    $("body").css("overflow", "");
+    let arr = $("input[type = 'text']"); for (i in arr ) { arr[i].value="" }
+    let arr2 = $("input[type = 'password']"); for (i in arr2 ) { arr2[i].value="" }
 }
 
 function Quit(){
@@ -34,4 +36,6 @@ function Quit(){
     location.reload();
 }
 
-
+$('#overlay').click(function () {
+    PopUpHide();
+})

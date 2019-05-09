@@ -1,10 +1,10 @@
 <div id="top-header">
-        <a href="javascript:PopUpShow()"><span id="auth-reg"></span></a>
-    
+    <a href="javascript:PopUpShow()"><span id="auth-reg"></span></a>
+
 </div>
 <span id="login" style="display: none"><%= login %></span>
 <script>
-    if ($("#login").text()) $('#top-header').append('<a href="javascript:Quit()"><span id="auth-reg">'+ $("#login").text() + ' : выход</span></a>') 
+    if ($("#login").text()) $('#top-header').append('<a href="javascript:Quit()"><span id="auth-reg">' + $("#login").text() + ' : выход</span></a>')
     else $('#top-header').append('<a href="javascript:PopUpShow()"><span id="auth-reg">Вход/Регистрация</span></a>') 
 </script>
 
@@ -12,8 +12,8 @@
     <ul class="menu-main">
         <li id="main-li"><a href="/">На главную</a></li>
         <li id="search-li">
-            <input type="text" id="IDsearch" placeholder="фильм, актёр, режиссёр" />
-            <button id="btn-search">поиск</button>
+                <input type="text" id="IDsearch" placeholder="фильм, актёр, режиссёр" />
+                <button id="btn-search">поиск</button>
         </li>
         <li id="recomended-li"><a style="cursor: pointer">Рекомендации</a>
             <ul id="recomended-ul">
@@ -35,7 +35,6 @@
                 <p class="report report-log-err"></p>
                 <li><input type="text" id="login-login" name="login" placeholder="login" /></li>
                 <li><input type="password" id="login-password" name="login-password" placeholder="password" /></li>
-                <!--<div class="g-recaptcha" data-sitekey="6LcvVKIUAAAAAJiqhQg9T4w4S1CBBf2KHqBM8rOI"></div>-->
                 <li><input type="submit" class="auth-reg-but login-button" value="Вход">
                 </li>
                 <!--<li><button class="login-button">Вход</button></li>-->

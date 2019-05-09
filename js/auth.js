@@ -15,7 +15,7 @@ $('.register-button').on('click', function (e) {
         method: "POST",
         data: JSON.stringify(data),
         success: function (result) {
-            if (result.registerCompleted) {
+            if (result.registerCompvared) {
                 $('.report-reg').empty();
                 $('.report-reg-err').empty();
                 $('.report-reg').append('Регистрация успешна!')
@@ -29,6 +29,8 @@ $('.register-button').on('click', function (e) {
         }
     })
 })
+
+
 
 $('.login-button').on('click', function (e) {
     e.preventDefault();
@@ -44,7 +46,7 @@ $('.login-button').on('click', function (e) {
         method: "POST",
         data: JSON.stringify(data),
         success: function (result) {
-            if (result.loginCompleted) {
+            if (result.loginCompvared) {
                 $('.report-log').empty();
                 $('.report-log-err').empty();
                 $('.report-log').append('Авторизация успешна!')
@@ -57,4 +59,9 @@ $('.login-button').on('click', function (e) {
             }
         }
     })
-})
+});
+
+function errorLogin() {
+    $('.report-reg-err').empty();
+    $('.report-reg-err').append("ошибка!")
+}

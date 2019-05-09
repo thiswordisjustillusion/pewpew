@@ -12,7 +12,7 @@ const MongoStore = require('connect-mongo')(session);
 const app = express();
 const jsonParser = express.json();
 
-const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
+const mongoClient = new MongoClient("mongodb://149.154.69.182:27017/", { useNewUrlParser: true });
 
 let dbClient;
 
@@ -23,7 +23,7 @@ app.use(
         resave: true,
         saveUninitialized: true,
         store: new MongoStore({
-            url: 'mongodb://localhost:27017/PewpoDB'
+            url: 'mongodb://149.154.69.182:27017/PewpoDB'
         })
     })
 )
@@ -268,7 +268,7 @@ app.post("/search", jsonParser, function (req, res) {
     let letSearch = req.body.searchM.toLowerCase().replace(/[\/\\#&,()$~%.'"—:*?<>{} \-_=\[\]]/g, "");
     let sumSearch = [];
 
-    db.collection("films").find({}).sort({ "rating": -1 }).toArray(async function (err, search) {
+    db.collection("films").find({}).sort({ "rating": -1 }).toArray( function (err, search) {
         if (err) return console.log(err);
         for (i = 0; i < search.length; i++) {
             let flag = 0;

@@ -1,14 +1,14 @@
 <div id="top-header">
-    <a href="javascript:PopUpShow()"><span id="auth-reg"></span></a>
-
 </div>
 <span id="login" style="display: none"><%= login %></span>
+
 <script>
     if ($("#login").text()) $('#top-header').append('<a href="javascript:Quit()"><span id="auth-reg">' + $("#login").text() + ' : выход</span></a>')
     else $('#top-header').append('<a href="javascript:PopUpShow()"><span id="auth-reg">Вход/Регистрация</span></a>') 
 </script>
 
 <nav>
+        
     <ul class="menu-main">
         <li id="main-li"><a href="/">На главную</a></li>
         <li id="search-li">
@@ -61,5 +61,6 @@
     </div>
 </div>
 <div id="overlay"></div>
+
 <script src="/js/auth.js"></script>
 <script src="/js/register.js"></script>

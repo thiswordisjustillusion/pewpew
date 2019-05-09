@@ -31,9 +31,11 @@ function Quit(){
     $.ajax({
         url: "/logout",
         contentType: "application/json",
-        method: "POST"
+        method: "POST",
+        success: function (data) {
+            if (data == 'yep') location.reload();
+        }
     })
-    location.reload();
 }
 
 $('#overlay').click(function () {

@@ -23,7 +23,7 @@ $('.register-button').on('click', function (e) {
                     location.reload();
                    }, 1500);
             } else {
-                $('.report-reg-err').empty();
+                $('.report-reg-err').empty()
                 $('.report-reg-err').append(result.registerError)
             }
         }

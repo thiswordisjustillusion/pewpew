@@ -330,6 +330,7 @@ app.post("/movies", jsonParser, function (req, res) {
 //выход из аккаунта
 app.post("/logout", function(req,res){
     if (req.session) req.session.destroy()
+    if (!(req.session)) res.send('yep')
 })
 
 // прослушиваем прерывание работы программы (ctrl-c)

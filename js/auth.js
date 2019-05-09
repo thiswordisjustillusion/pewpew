@@ -1,4 +1,3 @@
-
 //$("#login").text()
 $('.register-button').on('click', function (e) {
     e.preventDefault();
@@ -23,12 +22,14 @@ $('.register-button').on('click', function (e) {
                     location.reload();
                    }, 1500);
             } else {
-                $('.report-reg-err').empty()
+                $('.report-reg-err').empty();
                 $('.report-reg-err').append(result.registerError)
             }
         }
     })
 })
+
+
 
 $('.login-button').on('click', function (e) {
     e.preventDefault();
@@ -57,4 +58,9 @@ $('.login-button').on('click', function (e) {
             }
         }
     })
-})
+});
+
+function errorLogin() {
+    $('.report-reg-err').empty();
+    $('.report-reg-err').append("ошибка!")
+}

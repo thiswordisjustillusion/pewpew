@@ -26,15 +26,16 @@ function PopUpHide(){
     let arr2 = $("input[type = 'password']"); for (i in arr2 ) { arr2[i].value="" }
 }
 
-
 function Quit(){
     //удаление сессии
     $.ajax({
         url: "/logout",
         contentType: "application/json",
-        method: "POST"
+        method: "POST",
+        success: function (data) {
+            if (data == 'yep') location.reload();
+        }
     })
-    location.reload();
 }
 
 $('#overlay').click(function () {

@@ -150,6 +150,11 @@ function CheckLike() {
                         $(".img-like").remove();
                         $("#div-like").prepend('<img class="img-like" src="/public/img/likeN.png" style="width: 27px; height: 25px;"/>')
                     }
+                } else if (userlogin == '') {
+                    $('#span_like').removeClass('likeY');
+                        $('#span_like').addClass('likeN');
+                        $(".img-like").remove();
+                        $("#div-like").prepend('<img class="img-like" src="/public/img/likeN.png" style="width: 27px; height: 25px;"/>')
                 }
             });
         }

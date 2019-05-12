@@ -12,7 +12,7 @@ const MongoStore = require('connect-mongo')(session);
 const app = express();
 const jsonParser = express.json();
 
-const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
+const mongoClient = new MongoClient("mongodb://149.154.69.182:27017/", { useNewUrlParser: true });
 
 let dbClient;
 
@@ -23,7 +23,7 @@ app.use(
         resave: true,
         saveUninitialized: true,
         store: new MongoStore({
-            url: 'mongodb://localhost:27017/PewpoDB'
+            url: 'mongodb://149.154.69.182:27017/PewpoDB'
         })
     })
 )
@@ -191,7 +191,6 @@ app.post("/register", jsonParser, function (req, res) {
                         userPassword = hash;
 
                         const newUser = { login: userLogin, password: userPassword, genre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], genrep: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], view: [], like: [] }
-
                         db.collection("users").insertOne(newUser, function (err, resultInsert) {
                             if (err) return console.log(err);
 
@@ -206,7 +205,6 @@ app.post("/register", jsonParser, function (req, res) {
                     let registerError = 'Пользователь с таким логином уже зарегистрирован'
                     result = { registerCompleted, registerError }
                     res.send(result)
-
                 }
             });
         } else {
@@ -225,20 +223,18 @@ app.post("/login", jsonParser, function (req, res) {
 
     const userLogin = req.body.login;
     let userPassword = req.body.password;
+    console.log(userLogin, userPassword)
     if (!userLogin || !userPassword) {
-        console.log('Необходимо заполнить все поля')
         let loginCompleted = false;
         let loginError = 'Необходимо заполнить все поля'
         result = { loginCompleted, loginError }
         res.send(result);
     } else {
-        console.log('вход по:', userLogin, userPassword)
         let newUser = { login: userLogin }
         db.collection("users").findOne(newUser, function (err, find) {
             if (find) {
                 bcrypt.compare(userPassword, find.password, function (err, findHash) {
                     if (findHash) {
-                        console.log('Авторизация успешна!')
                         req.session.userLogin = find.login;
                         let loginCompleted = true;
                         result = { loginCompleted };

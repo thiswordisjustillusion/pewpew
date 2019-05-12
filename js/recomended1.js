@@ -5,24 +5,30 @@ let userView = [];
 let betterUsers = [];
 //находим нашего юзера и запоминаем его осн. жанры
 function CheckGenre() {
-    $.ajax({
-        url: "/users",
-        type: "GET",
-        contentType: "application/json",
-        success: function (users) {
-            $.each(users, function (index, user) {
-                //находим запись о текущем пользователе
-                if (user.login == $("#login").text()) {
-                    //сохраняем просмотренные фильмы пользователя
-                    userView = user.view;
-                    for (i = 0; i < 10; i++) 
-                        if (user.genrep[i] >= 10) 
-                            genreJ[i] = user.genrep[i];
-                }
-            })
-        }
-    });
-    SortUsers();
+    if ($("#login").text() == '') {
+        $(".films").append(
+            '<h2>Необходимо авторизироваться для просмотра рекомендаций</h2>'
+        );
+    } else {
+        $.ajax({
+            url: "/users",
+            type: "GET",
+            contentType: "application/json",
+            success: function (users) {
+                $.each(users, function (index, user) {
+                    //находим запись о текущем пользователе
+                    if (user.login == $("#login").text()) {
+                        //сохраняем просмотренные фильмы пользователя
+                        userView = user.view;
+                        for (i = 0; i < 10; i++)
+                            if (user.genrep[i] >= 10)
+                                genreJ[i] = user.genrep[i];
+                    }
+                })
+            }
+        });
+        SortUsers();
+    }
 }
 
 
@@ -44,16 +50,16 @@ function SortUsers() {
                     let sumOtklon = 0;
                     let flag = 0;
                     //проверяем, был ли юзер уже проверен
-                    for (i = 0; i < betterUsers.length + 1; i++) 
+                    for (i = 0; i < betterUsers.length + 1; i++)
                         if (betterUsers[i] == user.login) {
                             flag = 1;
                             break;
                         }
-                    
+
 
                     if (!(user.login == $("#login").text()) && (flag == 0)) {
-                        for (i = 0; i < 10; i++) 
-                            if (user.genrep[i] - genreJ[i]) 
+                        for (i = 0; i < 10; i++)
+                            if (user.genrep[i] - genreJ[i])
                                 sumOtklon += Math.abs(user.genrep[i] - genreJ[i]);
                         if (sumOtklon <= min) {
                             min = sumOtklon;
@@ -65,7 +71,7 @@ function SortUsers() {
             }
         }
     });
-    GetLikeMovies ();
+    GetLikeMovies();
 }
 
 //https://medium.com/@frontman/%D0%B4%D0%B5%D0%B4%D1%83%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F-%D0%B8-%D1%81%D0%BB%D0%B8%D1%8F%D0%BD%D0%B8%D0%B5-%D0%BC%D0%B0%D1%81%D1%81%D0%B8%D0%B2%D0%BE%D0%B2-c2706948c200

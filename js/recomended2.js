@@ -4,40 +4,46 @@ let genres = [];
 
 //находим нашего юзера и запоминаем его осн. жанры
 function CheckGenre() {
-    let nGenres = 0;
-    $.ajax({
-        url: "/users",
-        type: "GET",
-        contentType: "application/json",
-        success: function (users) {
-            let max = 0;
-            let nmax = "";
-            $.each(users, function (index, user) {
-                nGenres = 0;
-                //нахождение текущего пользователя
-                if (user.login == $("#login").text()) {
-                //нахождение 4х жанров с максимальным значением
-                    while (nGenres < 4) {
-                        max = 0;
-                //определение жанра с максимальным значением 
-                        for (i = 0; i < 10; i++) {
-                            if (user.genrep[i] > max) {
-                                max = user.genrep[i];
-                                nmax = i;
+    if ($("#login").text() == '') {
+        $(".films").append(
+            '<h2>Необходимо авторизироваться для просмотра рекомендаций</h2>'
+        );
+    } else {
+        let nGenres = 0;
+        $.ajax({
+            url: "/users",
+            type: "GET",
+            contentType: "application/json",
+            success: function (users) {
+                let max = 0;
+                let nmax = "";
+                $.each(users, function (index, user) {
+                    nGenres = 0;
+                    //нахождение текущего пользователя
+                    if (user.login == $("#login").text()) {
+                        //нахождение 4х жанров с максимальным значением
+                        while (nGenres < 4) {
+                            max = 0;
+                            //определение жанра с максимальным значением 
+                            for (i = 0; i < 10; i++) {
+                                if (user.genrep[i] > max) {
+                                    max = user.genrep[i];
+                                    nmax = i;
+                                }
                             }
+                            genreJ[nmax] = max;
+                            nGenres++;
+                            delete user.genrep[nmax];
                         }
-                        genreJ[nmax] = max;
-                        nGenres++;
-                        delete user.genrep[nmax];
+                        //запись ID жанра
+                        genres = Object.keys(genreJ)
+                        console.log('genres', genres, genreJ)
                     }
-                    //запись ID жанра
-                    genres = Object.keys(genreJ)
-                    console.log('genres', genres, genreJ)
-                }
-            });
-        }
-    });
-    GetRecomended()
+                });
+            }
+        });
+        GetRecomended()
+    }
 }
 //сравниваем жанры пользователя и жанры фильмов из бд 
 //если есть совпадение по трём жанрам, то выводим фильм

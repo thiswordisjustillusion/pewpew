@@ -34,11 +34,12 @@ $("#play").click(function () {
                 })
             }
         }
-    })
+    });
 })
 
 //LIKE FILM:
 function ChengeLike() {
+    if (!(userlogin == '')) {
     //"вытаскиваем" название фильма, имя пользователя и количество "лайков" фильма
     const title = $("#title_eng").text()
     //let like = Number($("#span_like").text());
@@ -111,7 +112,7 @@ function ChengeLike() {
                 });
             }
         }
-    })
+    });}
 }
 $("#span_like").click(function () {
     ChengeLike();
@@ -152,9 +153,9 @@ function CheckLike() {
                     }
                 } else if (userlogin == '') {
                     $('#span_like').removeClass('likeY');
-                        $('#span_like').addClass('likeN');
-                        $(".img-like").remove();
-                        $("#div-like").prepend('<img class="img-like" src="/public/img/likeN.png" style="width: 27px; height: 25px;"/>')
+                    $('#span_like').addClass('likeN');
+                    $(".img-like").remove();
+                    $("#div-like").prepend('<img class="img-like" src="/public/img/likeN.png" style="width: 27px; height: 25px;"/>')
                 }
             });
         }

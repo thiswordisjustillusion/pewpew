@@ -12,7 +12,7 @@ const MongoStore = require('connect-mongo')(session);
 const app = express();
 const jsonParser = express.json();
 
-const mongoClient = new MongoClient("mongodb://149.154.69.182:27017/", { useNewUrlParser: true });
+const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
 
 let dbClient;
 
@@ -23,7 +23,7 @@ app.use(
         resave: true,
         saveUninitialized: true,
         store: new MongoStore({
-            url: 'mongodb://149.154.69.182:27017/PewpoDB'
+            url: 'mongodb://localhost:27017/PewpoDB'
         })
     })
 )

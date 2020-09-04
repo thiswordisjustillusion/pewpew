@@ -10,7 +10,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
-    "mongodb": "^3.1.10",
+    "mongodb": "^3.1.13",
     "nodemon": "^1.18.10"
   },
   "scripts": {
